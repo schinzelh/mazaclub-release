@@ -46,7 +46,7 @@ cd /root
 if [ "${TYPE}" = "master" ]
 then
  echo "building from MASTER" 
- git clone https://github.com/mazaclub/electrum-grs repo
+ git clone https://github.com/mazaclub/encompass repo
  cd /root/repo
  check_ver
 elif [ "${TYPE}" = "local" ] 
@@ -57,12 +57,12 @@ then
   check_ver
 elif [ "${TYPE}" = "rc" ]
 then 
-   git clone https://github.com/mazaclub/electrum-grs repo
+   git clone https://github.com/mazaclub/encompass repo
    cd /root/repo
    git checkout release/v${VERSION} || localdie 2
 
 else "Building from Tagged Version: ${VERSION}"
-  git clone https://github.com/mazaclub/electrum-grs repo
+  git clone https://github.com/mazaclub/encompass repo
   cd /root/repo
   git checkout v"${VERSION}" || localdie 2
 fi
@@ -78,10 +78,12 @@ test -d ./packages || mkdir ./packages
 install_pip
 # run pyrcc4 on build repo
 pyrcc4 icons.qrc -o gui/qt/icons_rc.py
+pyrcc4 data/themes/theme_icons.qrc -o gui/qt/theme_icons_rc.py
 
 # add in some __init__.py files for pyinstaller to read
-test -d /root/packages/dns || mkdir /root/packages/dns
-cp -av /root/repo/packages/dns/__init__.py /root/packages/dns
+# for newer electrum code requiring dnspython
+#test -d /root/packages/dns || mkdir /root/packages/dns
+#cp -av /root/repo/packages/dns/__init__.py /root/packages/dns
 
 # install app to docker build container
 python setup.py install
@@ -118,18 +120,18 @@ cp -av /root/packages ./
 cp -av /root/trezorctl.py ./packages/
 ./make_windows
 test -d /root/release-packages/Windows || mkdir -pv /root/release-packages/Windows
-rm -rf /opt/wine-electrum/drive_c/electrum-grs/Electrum-GRS-"$VERSION".*
-rm -rf /opt/wine-electrum/drive_c/electrum-grs/Electrum-GRS-"$VERSION"/
-rm -rf /opt/wine-electrum/drive_c/electrum-grs/Electrum-GRS-"$VERSION"*
-cp -v /root/repo/dist/Electrum-GRS-"$VERSION".zip /opt/wine-electrum/drive_c/electrum-grs/Electrum-GRS-"$VERSION".zip
+rm -rf /opt/wine-electrum/drive_c/encompass/Encompass-"$VERSION".*
+rm -rf /opt/wine-electrum/drive_c/encompass/Encompass-"$VERSION"/
+rm -rf /opt/wine-electrum/drive_c/encompass/Encompass-"$VERSION"*
+cp -v /root/repo/dist/Encompass-"$VERSION".zip /opt/wine-electrum/drive_c/encompass/Encompass-"$VERSION".zip
 cp -av dist/* /root/release-packages/Windows
-cd /opt/wine-electrum/drive_c/electrum-grs
-unzip Electrum-GRS-"$VERSION".zip
-cp -av /root/darkcoin_hash.pyd /opt/wine-electrum/drive_c/electrum-grs/Electrum-GRS-"$VERSION"/lib
-cp -av /root/hid.pyd /opt/wine-electrum/drive_c/electrum-grs/Electrum-GRS-"${VERSION}"/lib
-cp -av /root/hid.pyd /opt/wine-electrum/drive_c/electrum-grs/Electrum-GRS-"${VERSION}"
-test -d /opt/wine-electrum/drive_c/electrum-grs/Electrum-GRS-"${VERSION}"/requests  || mkdir  /opt/wine-electrum/drive_c/electrum-grs/Electrum-GRS-"${VERSION}"/requests    
-cp -av /root/repo/packages/requests//cacert.pem  /opt/wine-electrum/drive_c/electrum-grs/Electrum-GRS-"${VERSION}"/requests
+cd /opt/wine-electrum/drive_c/encompass
+unzip Encompass-"$VERSION".zip
+cp -av /root/coinhash/*.pyd /opt/wine-electrum/drive_c/encompass/Encompass-"$VERSION"/lib
+cp -av /root/hid.pyd /opt/wine-electrum/drive_c/encompass/Encompass-"${VERSION}"/lib
+cp -av /root/hid.pyd /opt/wine-electrum/drive_c/encompass/Encompass-"${VERSION}"
+test -d /opt/wine-electrum/drive_c/encompass/Encompass-"${VERSION}"/requests  || mkdir  /opt/wine-electrum/drive_c/encompass/Encompass-"${VERSION}"/requests    
+cp -av /root/repo/packages/requests//cacert.pem  /opt/wine-electrum/drive_c/encompass/Encompass-"${VERSION}"/requests
 echo "Windows Complete"
 
 touch /root/build_release.complete

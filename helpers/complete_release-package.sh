@@ -14,9 +14,9 @@ sign_release () {
   mv $(pwd)/helpers/release-packages/* $(pwd)/releases/
   if [ "${TYPE}" = "rc" ]; then export TYPE=SIGNED ; fi
   if [ "${TYPE}" = "SIGNED" ] ; then
-    ${DOCKERBIN} push mazaclub/electrum-grs-winbuild:${VERSION}
-    ${DOCKERBIN} push mazaclub/electrum-grs-release:${VERSION}
-#    ${DOCKERBIN} push mazaclub/electrum-grs32-release:${VERSION}
+    ${DOCKERBIN} push mazaclub/encompass-winbuild:${VERSION}
+    ${DOCKERBIN} push mazaclub/encompass-release:${VERSION}
+#    ${DOCKERBIN} push mazaclub/encompass32-release:${VERSION}
     ${DOCKERBIN} tag -f ogrisel/python-winbuilder mazaclub/python-winbuilder:${VERSION}
     ${DOCKERBIN} push mazaclub/python-winbuilder:${VERSION}
     cd releases
@@ -36,4 +36,4 @@ sign_release () {
       fi
     done
   fi
-  echo "You can find your Electrum-GRSs $VERSION binaries in the releases folder."
+  echo "You can find your Encompasss $VERSION binaries in the releases folder."

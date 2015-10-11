@@ -1,6 +1,6 @@
 VERSION="${1}"
 test -z ${VERSION} && exit 1
-PRODUCT_NAME=Electrum-GRS
+PRODUCT_NAME=Encompass
 
 set -xeo pipefail
 BUILD_REPO=../../../repo
@@ -15,11 +15,11 @@ ARCHIVE_FILENAME="${BUILT_PRODUCTS_DIR}/${PACKAGE_NAME}.pkg"
 test -d Resources/en.lproj || mkdir -pv Resources/en.lproj
 cp -av ${BUILD_REPO}/README-OSX.md Resources/en.lproj/Readme
 cp -av ${BUILD_REPO}/LICENSE Resources/en.lproj/License
-cp -av ${BUILD_REPO}/icons/electrum-grs-logo.jpg Resources/en.lproj/background
+cp -av ${BUILD_REPO}/icons/encompass-logo.jpg Resources/en.lproj/background
 
 
 
-#pkgbuild --analyze --root ${INSTALL_ROOT} 'Electrum-GRS.plist'
+#pkgbuild --analyze --root ${INSTALL_ROOT} 'Encompass.plist'
 
     #--component-plist "./${PRODUCT_NAME}.plist" \
 pkgbuild --root "${INSTALL_ROOT}" \
@@ -35,7 +35,7 @@ cat Distribution.in
 
 #echo "sed"
 sed -e '$ i\
- \    <title>Electrum-GRS '${VERSION}'</title>' \
+ \    <title>Encompass '${VERSION}'</title>' \
  -e '$ i\
  \    <background file="background" mime-type="image/jpeg" alignment="bottomleft" scaling="proportional" />' \
  -e '$ i\

@@ -1,11 +1,11 @@
 # -*- mode: python -*-
 
 # We don't put these files in to actually include them in the script but to make the Analysis method scan them for imports
-a = Analysis(['electrum-grs', 'gui/qt/main_window.py', 'gui/qt/lite_window.py', 'gui/text.py',
-              'lib/util.py', 'lib/wallet.py', 'lib/simple_config.py',
-              'lib/bitcoin.py','lib/interface.py','packages/trezorctl.py', 'lib/dnssec.py'
+a = Analysis(['encompass', 'gui/qt/main_window.py', 'gui/qt/lite_window.py', 'gui/text.py',
+              'lib/util.py', 'lib/network.py','lib/wallet.py', 'lib/simple_config.py',
+              'lib/bitcoin.py','lib/interface.py','packages/trezorctl.py'
               ],
-             hiddenimports=["lib","gui","plugins","hid"],
+             hiddenimports=["lib","gui","plugins","hid", "trezorlib" ],
              pathex=['lib','gui','plugins','packages','packages/requests'],
              hookspath=None)
 
@@ -39,24 +39,23 @@ a.datas += extra_datas('locale')
 a.datas += extra_datas('gui')
 a.datas += extra_datas('lib')
 a.datas += extra_datas('plugins')
-#a.datas += [ ('packages/requests/cacert.pem', 'packages/requests/cacert.pem', 'DATA') ]
-
+a.datas += [ ('requests/cacert.pem', 'requests/cacert.pem', 'DATA') ]
+#a.datas += [ ('packages/trezorctl.py', 'packages/trezorctl.py', 'DATA') ]
 # Dependencies
 a.datas += extra_datas('packages')
-a.datas += [ ('requests/cacert.pem', 'requests/cacert.pem', 'DATA') ]
 
 pyz = PYZ(a.pure)
 exe = EXE(pyz,
           a.scripts,
           a.binaries,
           a.datas,
-          name=os.path.join('build\\pyi.win32\\electrum-grs', 'electrum-grs.exe'),
+          name=os.path.join('build\\pyi.win32\\encompass', 'encompass.exe'),
           debug=True,
           strip=None,
           upx=False,
-          icon='icons/electrum-grs.ico',
+          icon='icons/encompass.ico',
           console=True)
-          # The console True makes an annoying black box pop up, but it does make electrum-grs output command line commands, with this turned off no output will be given but commands can still be used
+          # The console True makes an annoying black box pop up, but it does make encompass output command line commands, with this turned off no output will be given but commands can still be used
 
 coll = COLLECT(exe,
                a.binaries,
@@ -65,6 +64,6 @@ coll = COLLECT(exe,
                strip=None,
                upx=True,
                debug=True,
-               icon='icons/electrum-grs.ico',
+               icon='icons/encompass.ico',
                console=True,
-               name=os.path.join('dist', 'electrum-grs'))
+               name=os.path.join('dist', 'encompass'))

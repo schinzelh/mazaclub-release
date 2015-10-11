@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 die () {
  echo "Build Failure - Exiting"
@@ -64,14 +64,33 @@ get_archpkg (){
   fi
   test -d ../../contrib/ArchLinux || mkdir -v ../../contrib/ArchLinux
   pushd ../../contrib/ArchLinux
-  wget https://aur.archlinux.org/packages/en/electrum-grs-git/electrum-grs-git.tar.gz
-  tar -xpzvf electrum-grs-git.tar.gz
-  sed -e 's/_gitbranch\=.*/_gitbranch='${archbranch}'/g' electrum-grs-git/PKGBUILD > electrum-grs-git/PKGBUILD.new
-  mv electrum-grs-git/PKGBUILD.new electrum-grs-git/PKGBUILD
-  rm electrum-grs-git.tar.gz
+  wget https://aur.archlinux.org/packages/en/encompass-git/encompass-git.tar.gz
+  tar -xpzvf encompass-git.tar.gz
+  sed -e 's/_gitbranch\=.*/_gitbranch='${archbranch}'/g' encompass-git/PKGBUILD > encompass-git/PKGBUILD.new
+  mv encompass-git/PKGBUILD.new encompass-git/PKGBUILD
+  rm encompass-git.tar.gz
   popd
 }
-build_osx (){
+prepare_repo(){
+  ./helpers/prepare_repo.sh
+}
+buildRelease(){
+  test -d releases || mkdir -pv $(pwd)/releases
+  # echo "Making locales" 
+  # $DOCKERBIN run --rm -it --privileged -e MKPKG_VER=${VERSION} -v $(pwd)/helpers:/root  -v $(pwd)/repo:/root/repo  -v $(pwd)/source:/opt/wine-electrum/drive_c/encompass/ -v $(pwd):/root/encompass-release mazaclub/encompass-release:${VERSION} /bin/bash
+  echo "Making Release packages for $VERSION"
+  test -f helpers/build_release.complete || ./helpers/build_release.sh
+}
+build_Windows(){
+   echo "Making Windows EXEs for $VERSION" \
+    && cp build-config.sh helpers/build-config.sh \
+    && ./helpers/build_windows.sh \
+    && ls -la $(pwd)/helpers/release-packages/Windows/Encompass-${VERSION}-Windows-setup.exe \
+    && mv $(pwd)/helpers/release-packages/Windows $(pwd)/releases/Windows \
+    && touch releases/Windows/completed
+}
+build_OSX(){
+   echo "Attempting OSX Build: Requires Darwin Buildhost" 
   if [ "$(uname)" = "Darwin" ];
    then
    if [ ! -f /opt/local/bin/python2.7 ]
@@ -84,40 +103,24 @@ build_osx (){
   ./helpers/build_osx-pyinstaller.sh  ${VERSION} $TYPE
  else
   echo "OSX Build Requires OSX build host!"
- fi
-}
-prepare_repo(){
-  ./helpers/prepare_repo.sh
-}
-buildRelease(){
-  test -d releases || mkdir -pv $(pwd)/releases
-  # echo "Making locales" 
-  # $DOCKERBIN run --rm -it --privileged -e MKPKG_VER=${VERSION} -v $(pwd)/helpers:/root  -v $(pwd)/repo:/root/repo  -v $(pwd)/source:/opt/wine-electrum/drive_c/electrum-grs/ -v $(pwd):/root/electrum-grs-release mazaclub/electrum-grs-release:${VERSION} /bin/bash
-  echo "Making Release packages for $VERSION"
-  ./helpers/build_release.sh
-}
-buildWindows(){
-   echo "Making Windows EXEs for $VERSION" \
-   && cp build-config.sh helpers/build-config.sh \
-   && $DOCKERBIN run --rm -it --privileged -e MKPKG_VER=${VERSION} -v $(pwd)/helpers:/root  -v $(pwd)/repo:/root/repo  -v $(pwd)/source:/opt/wine-electrum/drive_c/electrum-grs/ -v $(pwd):/root/electrum-grs-release mazaclub/electrum-grs-winbuild:${VERSION} /root/build-binary $VERSION \
-   && ls -la $(pwd)/helpers/release-packages/Windows/Electrum-GRS-${VERSION}-Windows-setup.exe 
-}
-buildOSX(){
-   echo "Attempting OSX Build: Requires Darwin Buildhost" \
-   && build_osx ${VERSION} \
+ fi \
+   && mv $(pwd)/helpers/release-packages/OSX* $(pwd)/releases/ \
+   && touch releases/OSX/completed \
    && echo "OSX build complete" 
 }
-buildLinux(){
+build_Linux(){
    echo "Linux Packaging" \
-   && $DOCKERBIN run --rm -it --privileged -e MKPKG_VER=${VERSION} -v $(pwd)/helpers:/root  -v $(pwd)/repo:/root/repo  -v $(pwd)/source:/opt/wine-electrum/drive_c/electrum-grs/ -v $(pwd):/root/electrum-grs-release mazaclub/electrum-grs-release:${VERSION} /root/make_linux ${VERSION}
+   && ./helpers/build_linux.sh \
+   && mv $(pwd)/helpers/release-packages/Linux $(pwd)/releases/Linux \
+   && touch releases/Linux/completed
 }
 completeReleasePackage(){
-  mv $(pwd)/helpers/release-packages/* $(pwd)/releases/
+#  mv $(pwd)/helpers/release-packages/* $(pwd)/releases/
   if [ "${TYPE}" = "rc" ]; then export TYPE=SIGNED ; fi
   if [ "${TYPE}" = "SIGNED" ] ; then
-    ${DOCKERBIN} push mazaclub/electrum-grs-winbuild:${VERSION}
-    ${DOCKERBIN} push mazaclub/electrum-grs-release:${VERSION}
-    ${DOCKERBIN} push mazaclub/electrum-grs32-release:${VERSION}
+    ${DOCKERBIN} push mazaclub/encompass-winbuild:${VERSION}
+    ${DOCKERBIN} push mazaclub/encompass-release:${VERSION}
+    ${DOCKERBIN} push mazaclub/encompass32-release:${VERSION}
     ${DOCKERBIN} tag -f ogrisel/python-winbuilder mazaclub/python-winbuilder:${VERSION}
     ${DOCKERBIN} push mazaclub/python-winbuilder:${VERSION}
     cd releases
@@ -137,16 +140,16 @@ completeReleasePackage(){
       fi
     done
   fi
-  echo "You can find your Electrum-GRSs $VERSION binaries in the releases folder."
+  echo "You can find your Encompasss $VERSION binaries in the releases folder."
   
 }
 
 buildImage(){
   echo "Building image"
   case "${1}" in 
-  winbuild) $DOCKERBIN build -t mazaclub/electrum-grs-winbuild:${VERSION} .
+  winbuild) $DOCKERBIN build -t mazaclub/encompass-winbuild:${VERSION} .
          ;;
-   release) $DOCKERBIN build -f Dockerfile-release -t  mazaclub/electrum-grs-release:${VERSION} .
+   release) $DOCKERBIN build -f Dockerfile-release -t  mazaclub/encompass-release:${VERSION} .
          ;;
   esac
 }
@@ -164,16 +167,16 @@ buildLtcScrypt() {
    cp -av ltc_scrypt-1.0/build/lib.win32-2.7/ltc_scrypt.pyd helpers/ltc_scrypt.pyd
 
 }
-buildDarkcoinHash() {
-  ./helpers/build_darkcoin-hash.sh
+buildCoinHash() {
+  ./helpers/build_coinhash.sh
 }
 
 prepareFile(){
-  echo "Preparing file for Electrum-GRS version $VERSION"
+  echo "Preparing file for Encompass version $VERSION"
   if [ -e "$TARGETPATH" ]; then
     echo "Version tar already downloaded."
   else
-   wget https://github.com/mazaclub/electrum-grs/archive/v${VERSION}.zip -O $TARGETPATH
+   wget https://github.com/mazaclub/encompass/archive/v${VERSION}.zip -O $TARGETPATH
   fi
 
   if [ -d "$TARGETFOLDER" ]; then
@@ -184,64 +187,34 @@ prepareFile(){
 }
 
 config (){
-# setup build-config.sh for export/import of common variables
-#if [[ $# -gt 0 ]]; then
-#  echo "#!/bin/bash" > build-config.sh
-#  VERSION=$1
-#  echo "export VERSION=$1" >> build-config.sh
-#  TYPE=${2:-tagged}
-#  echo "export TYPE=${2:-tagged}" >> build-config.sh
-#  FILENAME=Electrum-GRS-$VERSION.zip
-#  echo "export FILENAME=Electrum-GRS-$VERSION.zip" >> build-config.sh
-#  TARGETPATH=$(pwd)/source/$FILENAME
-#  echo "export TARGETPATH=$(pwd)/source/$FILENAME" >> build-config.sh
-#  TARGETFOLDER=$(pwd)/source/Electrum-GRS-$VERSION
-#  echo "export TARGETFOLDER=$(pwd)/source/Electrum-GRS-$VERSION" >> build-config.sh
-#  echo "Building Electrum-GRS $VERSION from $FILENAME"
-#else
-#  echo "Usage: ./build <version>."
-#  echo "For example: ./build 1.9.8"
-#  exit
-#fi
-
-# ensure docker is installed
-#source helpers/build-common.sh
-#if [[ -z "$DOCKERBIN" ]]; then
-#        echo "Could not find docker binary, exiting"
-#        exit
-#else
-#        echo "Using docker at $DOCKERBIN"
-#fi
-
-# make sure production builds are clean
-#if [ "${TYPE}" = "rc" -o "${TYPE}" = "SIGNED" ]
-#then 
-#   ./clean.sh all
-#fi
-
- ./helpers./config.sh
+ ./helpers/config.sh ${VERSION} ${TYPE} ${OS} 
+ cat build-config.sh
 }
-
-
 
 prep_deps () {
-## clone python-trezor so we have it for deps, and to include trezorctl.py 
-## for pyinstaller to analyze
-#test -d python-trezor || git clone https://github.com/mazaclub/python-trezor
-## prepare repo for local build
-#test -f prepared || prepare_repo
-##get_archpkg
-#
-## build windows C extensions
-#test -f helpers/hid.pyd || build_win32trezor
-#test -f helpers/darkcoin_hash.pyd || buildDarkcoinHash
-#
-## Build docker images
-#$DOCKERBIN images|awk '{print $1":"$2}'|grep "mazaclub/electrum-grs-winbuild:${VERSION}" || buildImage winbuild
-#$DOCKERBIN images|awk '{print $1":"$2}'|grep "mazaclub/electrum-grs-release:${VERSION}" || buildImage release
-## touch FORCE_IMG_BUILD if you want to 
-#test -f FORCE_IMG_BUILD &&  buildImage winbuild
-#test -f FORCE_IMG_BUILD &&  buildImage release
- ./helpers/prep_deps.sh
+ test -f prepped || ./helpers/prep_deps.sh
 }
+
+pick_build () {
+ case "$OS" in
+ 
+  buildWindows) echo "Windows-Only Build"
+ 	        build_Windows || die 99
+ 	       ;;
+    buildLinux) echo "Linux-Only Build"
+                build_Linux || die 98
+ 	       ;;
+      buildOSX) echo "OSX-Only Build"
+                build_OSX || die 97
+ 	       ;;
+      build.sh) echo "Building Windows, Linux, and OSX"
+                if [ "${TYPE}" = "local" ] ; then
+		 for i in Windows Linux OSX ; do
+                   test -f releases/${i}/completed || build_${i} 
+		 done
+                 fi || die 95
+                ;;
+ esac
+}
+
 test -f /.dockerenv || find_docker

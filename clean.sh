@@ -8,8 +8,8 @@ all(){
  rm prepped
  rm -rf releases/*
  rm build-config.sh helpers/build-config.sh
- rm -rf source/Electrum-GRS*
- rm -rf source/electrum-grs-setup.exe
+ rm -rf source/Encompass*
+ rm -rf source/encompass-setup.exe
  rm -rf ltc_scrypt*
  rm -rf helpers/release-packages
  rm -rf helpers/*.dylib
@@ -23,8 +23,8 @@ all(){
  rm -rf SocksiPy*
  rm -rf helpers/.??*
  rm -rf helpers/repo
- rm -rf helpers/electrum-grs-release
- rm -rf src/Electrum-GRS-*.dmg 
+ rm -rf helpers/encompass-release
+ rm -rf src/Encompass-*.dmg 
  rm -rf Makefile
  rm -rf helpers/debian_installer.sh
  rm -rf helpers/trezorctl.py
@@ -44,17 +44,21 @@ sudo chown -R ${USER}:${GROUP} .
 
 case $CLEAN in 
     osx) echo "Cleaning for build_osx.sh"
-         rm -rf src/Electrum-GRS.app
+         rm -rf src/Encompass.app
          rm -rf  helpers/release-packages/OSX*
+         rm -rf  releases/OSX*
          rm -rf repo/build repo/dist
          ;;
 windows) echo "Cleaning for build_windows.sh"
          rm -rf repo/build repo/dist
+         rm -rf  helpers/release-packages/Windows*
+         rm -rf  releases/Windows*
 	 ;;
 
   linux) echo "Cleaning for build_linux.sh"
-         rm helpers/release-packages/Linux/Electrum-GRS-2.4.1_Linux_x86_64-Installer.bin
          rm helpers/linux_installer.sh
+         rm -rf  helpers/release-packages/Linux*
+         rm -rf  releases/Linux*
          ;;
     all) echo "Cleaning All for Fresh Build"
          all

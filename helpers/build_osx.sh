@@ -18,16 +18,16 @@ if [ "$(uname)" = "Darwin" ];
   cd repo
   /opt/local/bin/python2.7 setup-release.py py2app
   test -d ../src || mkdir ../src 
-  mv dist/Electrum-GRS.app ../src/ 
+  mv dist/Encompass.app ../src/ 
   cd ..
   #make  -  makes the unneeded dmg
   test -d helpers/release-packages/OSX || mkdir -pv helpers/release-packages/OSX
-  #mv Electrum-GRS-${VER}.dmg helpers/release-packages/OSX
-  mv src/Electrum-GRS.app helpers/release-packages/OSX
+  #mv Encompass-${VER}.dmg helpers/release-packages/OSX
+  mv src/Encompass.app helpers/release-packages/OSX
   cp helpers/make_OSX-installer.sh helpers/release-packages/OSX
   pushd helpers/release-packages/OSX
-  mkdir Electrum-GRS.app/Contents/Resources/lib/python2.7/site-packages
-  pushd  Electrum-GRS.app/Contents/Resources/lib/python2.7/site-packages
+  mkdir Encompass.app/Contents/Resources/lib/python2.7/site-packages
+  pushd  Encompass.app/Contents/Resources/lib/python2.7/site-packages
   unzip ../site-packages.zip
   cd ..
   rm site-packages.zip

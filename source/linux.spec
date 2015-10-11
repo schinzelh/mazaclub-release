@@ -1,7 +1,7 @@
 # -*- mode: python -*-
 
 # We don't put these files in to actually include them in the script but to make the Analysis method scan them for imports
-a = Analysis(['electrum-grs', 'gui/qt/main_window.py', 'gui/qt/lite_window.py', 'gui/text.py',
+a = Analysis(['encompass', 'gui/qt/main_window.py', 'gui/qt/lite_window.py', 'gui/text.py',
               'lib/util.py', 'lib/wallet.py', 'lib/simple_config.py','gui/gtk.py',
               'lib/bitcoin.py','lib/interface.py', 'packages/trezorctl.py',
               ],
@@ -50,13 +50,13 @@ exe = EXE(pyz,
           a.scripts,
           a.binaries,
           a.datas,
-          name=os.path.join('build/electrum-grs/electrum-grs', 'electrum-grs-x86_64.bin'),
+          name=os.path.join('build/encompass/encompass', 'encompass-x86_64.bin'),
           debug=True,
           strip=None,
           upx=False,
-          icon='icons/electrum-grs.ico',
+          icon='icons/encompass.ico',
           console=True)
-          # The console True makes an annoying black box pop up, but it does make electrum-grs output command line commands, with this turned off no output will be given but commands can still be used
+          # The console True makes an annoying black box pop up, but it does make encompass output command line commands, with this turned off no output will be given but commands can still be used
 
 coll = COLLECT(exe,
                a.binaries,
@@ -65,6 +65,6 @@ coll = COLLECT(exe,
                strip=None,
                upx=True,
                debug=True,
-               icon='icons/electrum-grs.ico',
+               icon='icons/encompass.ico',
                console=True,
-               name=os.path.join('dist', 'electrum-grs'))
+               name=os.path.join('dist', 'encompass'))

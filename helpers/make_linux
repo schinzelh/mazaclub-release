@@ -3,8 +3,8 @@
 VERSION="${1}"
 test -z ${VERSION} && exit 1 
 
-test -d /root/electrum-grs-release/helpers/release-packages/Linux \
- && rm -rf /root/electrum-grs-release/helpers/release-packages/Linux
+test -d /root/encompass-release/helpers/release-packages/Linux \
+ && rm -rf /root/encompass-release/helpers/release-packages/Linux
 cd /root/repo
 rm -rf build dist packages
 test -f /root/linux_installer.sh && rm /root/linux_installer.sh
@@ -14,31 +14,40 @@ set -xeo pipefail
 mkdir packages
 pip install  --target packages -r ../requirements.txt
 #pip install --upgrade --target packages -r ../requirements.txt
-cp  /root/electrum-grs-release/python-trezor/trezorctl packages/trezorctl.py
+cp  /root/encompass-release/python-trezor/trezorctl packages/trezorctl.py
 cp -av /root/packages/google/__init__.py /root/repo/packages/google
-cp /root/electrum-grs-release/source/linux.spec /root/repo
-su build -c 'pyinstaller --windowed linux.spec'
+cp /root/encompass-release/source/linux.spec /root/repo
+if [ -d ${TRAVIS_BUILD_DIR} ] ; then 
+  echo "Building on Travis - moving /root/repo because permissions"
+  test -d /repo || cp -av /root/repo /
+  cd /repo
+  su build -c 'pyinstaller --windowed linux.spec'
+  cp -av /repo /root/
+else 
+ su build -c 'pyinstaller --windowed linux.spec'
+fi
+cd /root/repo
 cd dist
-#mv electrum-grs Electrum-GRS-"${VERSION}"
+#mv encompass Encompass-"${VERSION}"
 #put installer script in here
-mkdir /root/electrum-grs-release/helpers/release-packages/Linux
+mkdir /root/encompass-release/helpers/release-packages/Linux
 sed -e 's/ELECTRUM_VERSION/'${VERSION}'/g' /root/linux_installer.in > /tmp/linux_installer.sh
 cp /tmp/linux_installer.sh /root
 chmod 755 /root/linux_installer.sh
-mkdir Electrum-GRS-${VERSION}
-mv electrum-grs Electrum-GRS-${VERSION}
-cp /root/repo/icons/electrum-grs.png Electrum-GRS-${VERSION}
-cp /root/repo/README-Linux-x86_64.md Electrum-GRS-${VERSION}
-cp /root/repo/LICENSE Electrum-GRS-${VERSION}
-cp /root/repo/RELEASE-NOTES Electrum-GRS-${VERSION}
-cp /root/repo/AUTHORS Electrum-GRS-${VERSION}
-cp /root/90-trezor.rules Electrum-GRS-${VERSION}
-cp /root/electrum-grs_linux_startup.sh Electrum-GRS-${VERSION}/electrum-grs.sh
-cp /root/repo/electrum-grs.desktop Electrum-GRS-${VERSION}
-sed -e '/tail/d' /root/linux_installer.sh > Electrum-GRS-${VERSION}/linux_installer.sh
-tar -cpzvf Electrum-GRS-"${VERSION}"_Linux_x86_64.tgz Electrum-GRS-"${VERSION}"
-cat /root/linux_installer.sh Electrum-GRS-"${VERSION}"_Linux_x86_64.tgz > /root/electrum-grs-release/helpers/release-packages/Linux/Electrum-GRS-"${VERSION}"_Linux_x86_64-Installer.bin
-chmod 555 /root/electrum-grs-release/helpers/release-packages/Linux/Electrum-GRS-"${VERSION}"_Linux_x86_64-Installer.bin
+mkdir Encompass-${VERSION}
+mv encompass Encompass-${VERSION}
+cp /root/repo/icons/encompass.png Encompass-${VERSION}
+cp /root/repo/README-Linux-x86_64.md Encompass-${VERSION}
+cp /root/repo/LICENSE Encompass-${VERSION}
+cp /root/repo/RELEASE-NOTES Encompass-${VERSION}
+cp /root/repo/AUTHORS Encompass-${VERSION}
+cp /root/90-trezor.rules Encompass-${VERSION}
+cp /root/encompass_linux_startup.sh Encompass-${VERSION}/encompass.sh
+cp /root/repo/encompass.desktop Encompass-${VERSION}
+sed -e '/tail/d' /root/linux_installer.sh > Encompass-${VERSION}/linux_installer.sh
+tar -cpzvf Encompass-"${VERSION}"_Linux_x86_64.tgz Encompass-"${VERSION}"
+cat /root/linux_installer.sh Encompass-"${VERSION}"_Linux_x86_64.tgz > /root/encompass-release/helpers/release-packages/Linux/Encompass-"${VERSION}"_Linux_x86_64-Installer.bin
+chmod 555 /root/encompass-release/helpers/release-packages/Linux/Encompass-"${VERSION}"_Linux_x86_64-Installer.bin
 
-#mv Electrum-GRS-"${VERSION}"_Linux-x86_64.tgz /root/electrum-grs-release/helpers/release-packages/Linux
+#mv Encompass-"${VERSION}"_Linux-x86_64.tgz /root/encompass-release/helpers/release-packages/Linux
 

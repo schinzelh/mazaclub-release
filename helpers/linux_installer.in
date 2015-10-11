@@ -14,13 +14,13 @@ fi
 PREFIX="/"
 
 echo ""
-echo "Electrum-GRS-ELECTRUM_VERSION for Linux-x86_64"
+echo "Encompass-ELECTRUM_VERSION for Linux-x86_64"
 echo "by mazaclub - Lead Author, Tyler Willis, release manager, Rob Nelson"
 echo ""
 echo "based on Electrum, By Thomas Voegtlin"
-echo "Global install Requires root privileges, installs Electrum-GRS"
+echo "Global install Requires root privileges, installs Encompass"
 echo ""
-echo "Extracting file into /tmp/Electrum-GRS-ELECTRUM_VERSION"
+echo "Extracting file into /tmp/Encompass-ELECTRUM_VERSION"
 SKIP=`awk '/^__TARFILE_FOLLOWS__/ { print NR + 1; exit 0; }' $0`
 
 #remember our file name
@@ -31,20 +31,20 @@ tail -n +$SKIP $THIS | tar -C /tmp -xpvz
 
 # Any script here will happen after the tar file extract.
 success (){
- cat /tmp/Electrum-GRS-ELECTRUM_VERSION/README-Linux-x86_64.md
- success_msg  "Electrum-GRS-ELECTRUM_VERSION is installed to ${DIR} - start script in ${BINDIR}"
+ cat /tmp/Encompass-ELECTRUM_VERSION/README-Linux-x86_64.md
+ success_msg  "Encompass-ELECTRUM_VERSION is installed to ${DIR} - start script in ${BINDIR}"
  error "Remember to save your seeds in a safe place!!" 
  success_msg "Finished"
  exit 0
 }
 
 check_arch (){
-if [ "$(uname -p)" != "x86_64" ]
+if [ "$(uname -m)" != "x86_64" ]
 then
-   error "Electrum-GRS for Linux supports x86_64 machines only"
+   error "Encompass for Linux supports x86_64 machines only"
    error "You're recommended to use a source installation:"
-   error "git clone https://github.com/mazaclub/electrum-grs"
-   error "cd electrum-grs"
+   error "git clone https://github.com/mazaclub/encompass"
+   error "cd encompass"
    error "git checkout ELECTRUM_VERSION"
    error "pyrcc4 icons.prc -o gui/qt/icons_qrc.py"
    error "sudo apt-get install python-qt4 pip"
@@ -54,57 +54,65 @@ then
 fi
 }
 
-install_electrum-grs() {
-     cat /tmp/Electrum-GRS-ELECTRUM_VERSION/LICENSE
-     success_msg "Installing to ${DIR}/electrum-grs" \
+install_encompass() {
+     cat /tmp/Encompass-ELECTRUM_VERSION/LICENSE
+     success_msg "Installing to ${DIR}/encompass" \
       && test -d ${DIR} || ${SUDO} mkdir -p ${DIR} \
       && test -d ${BINDIR} || ${SUDO}  mkdir -p ${BINDIR} \
+      && test -d ${SHAREDIR} || ${SUDO}  mkdir -p ${SHAREDIR} \
+      && test -d ${SHAREDIR}/applications || ${SUDO}  mkdir -p ${SHAREDIR}/applications \
       && ${SUDO} mkdir -p ${SHAREDIR}/app-install/icons \
-      && ${SUDO} cp /tmp/Electrum-GRS-ELECTRUM_VERSION/electrum-grs.png ${SHAREDIR}/app-install/icons/electrum-grs.png \
-      && ${SUDO} mkdir -pv ${DIR}/electrum-grs \
-      && ${SUDO} cp -a /tmp/Electrum-GRS-ELECTRUM_VERSION/electrum-grs ${DIR} \
+      && ${SUDO} cp /tmp/Encompass-ELECTRUM_VERSION/encompass.png ${SHAREDIR}/app-install/icons/encompass.png \
+      && ${SUDO} mkdir -pv ${DIR}/encompass \
+      && ${SUDO} cp -a /tmp/Encompass-ELECTRUM_VERSION/encompass ${DIR} \
       && seddir=$(echo "${DIR}" | sed 's/\//\\\//g') \
-      && sed -e 's/INSTALL_DIR/'${seddir}'/g' /tmp/Electrum-GRS-ELECTRUM_VERSION/electrum-grs.sh > /tmp/Electrum-GRS-ELECTRUM_VERSION/electrum-grs-bindir.sh \
-      && ${SUDO} mv /tmp/Electrum-GRS-ELECTRUM_VERSION/electrum-grs-bindir.sh ${BINDIR}/electrum-grs \
-      && ${SUDO} chmod 555 ${BINDIR}/electrum-grs  \
-      && ${SUDO} cp /tmp/Electrum-GRS-ELECTRUM_VERSION/electrum-grs.desktop ${SHAREDIR}/applications/ \
-      && success_msg "Electrum-GRS-ELECTRUM_VERSION installation successful" \
-      && success_msg "To start electrum-grs run ${DIR}/electrum-grs/electrum-grs " \
-      && success_msg "Your wallets will be in ${HOME}/.electrum-grs/wallets" \
+      && sed -e 's/INSTALL_DIR/'${seddir}'/g' /tmp/Encompass-ELECTRUM_VERSION/encompass.sh > /tmp/Encompass-ELECTRUM_VERSION/encompass-bindir.sh \
+      && ${SUDO} mv /tmp/Encompass-ELECTRUM_VERSION/encompass-bindir.sh ${BINDIR}/encompass \
+      && ${SUDO} chmod 555 ${BINDIR}/encompass  \
+      && ${SUDO} cp /tmp/Encompass-ELECTRUM_VERSION/encompass.desktop ${SHAREDIR}/applications/ \
+      && echo " " \
+      && echo " " \
+      && success_msg "Encompass-ELECTRUM_VERSION installation successful" \
+      && success_msg "To start encompass run ${DIR}/encompass/encompass " \
+      && success_msg "Your wallets will be in ${HOME}/.encompass/wallets" \
+      && echo " " \
+      && echo " " \
+      && success_msg "Scroll up to read README nots for Encompass-ELECTRUM_VERSION on Linux" \
       && if [ "${SUDO}X" = "X" ] ; then
-            echo "You might wish to add ${HOME}/electrum-grs to your PATH"
-	    echo "and copy ${HOME}/electrum-grs/90-trezor.rules to /etc/udev/rules.d"
+            echo "You might wish to add ${HOME}/encompass to your PATH"
+	    echo "If you plan to use a Trezor hardware wallet "
+	    echo "copy ${HOME}/encompass/90-trezor.rules to /etc/udev/rules.d"
          else 
-           ${SUDO} cp /tmp/Electrum-GRS-ELECTRUM_VERSION/90-trezor.rules /etc/udev/rules.d   
+           ${SUDO} cp /tmp/Encompass-ELECTRUM_VERSION/90-trezor.rules /etc/udev/rules.d   
          fi \
       && success
 }
 
 get_config () {
-  cd /tmp/Electrum-GRS-ELECTRUM_VERSION
-  success_msg "Electrum-GRS has been extracted to /tmp/Electrum-GRS-ELECTRUM_VERSION"
-  echo "This install script will be available at /tmp/Electrum-GRS/ELECTRUM_VERSION/linux_installer.sh"
+  cd /tmp/Encompass-ELECTRUM_VERSION
+  success_msg "Encompass has been extracted to /tmp/Encompass-ELECTRUM_VERSION"
+  echo "This install script will be available at /tmp/Encompass/ELECTRUM_VERSION/linux_installer.sh"
   echo " "
-  echo "Would you like to install Electrum-GRS to:"
-  echo "1) /opt/electrum-grs"
-  echo "2) $HOME/electrum-grs"
-  echo "3) Bail - Don't install Electrum-GRS!"
+  echo "Would you like to install Encompass to:"
+  echo "1) /opt/encompass"
+  echo "2) $HOME/encompass"
+  echo "3) Bail - Don't install Encompass!"
   read dir
   case ${dir} in 
     1) export DIR="/opt"
        BINDIR="/usr/local/bin"
        SHAREDIR="/usr/share"
        SUDO="sudo" 
-       install_electrum-grs
+       install_encompass
        ;;
     2) export DIR="${HOME}"
        SUDO=""
-       BINDIR="${HOME}/electrum-grs"
+       BINDIR="${HOME}/encompass"
        SHAREDIR="${HOME}/.local/share"
-       install_electrum-grs 
+       install_encompass 
        ;;
-     3) error "Not installing electrum-grs" 
-        error "You can view electrum-grs in /tmp/Electrum-GRS-ELECTRUM_VERSION"
+     3) error "Not installing encompass" 
+        error "You can view encompass in /tmp/Encompass-ELECTRUM_VERSION"
         error "Along with the full contents of this installer."
         exit 0
 	;;
@@ -113,7 +121,7 @@ get_config () {
         ;;
   esac 
 }  
-error "Installing Electrum-GRS-ELECTRUM_VERSION"
+error "Installing Encompass-ELECTRUM_VERSION"
 echo ""
 check_arch
 get_config
