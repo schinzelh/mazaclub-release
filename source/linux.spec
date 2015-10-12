@@ -3,7 +3,7 @@
 # We don't put these files in to actually include them in the script but to make the Analysis method scan them for imports
 a = Analysis(['electrum-grs', 'gui/qt/main_window.py', 'gui/qt/lite_window.py', 'gui/text.py',
               'lib/util.py', 'lib/wallet.py', 'lib/simple_config.py','gui/gtk.py',
-              'lib/bitcoin.py','lib/interface.py', 'packages/trezorctl.py',
+              'lib/bitcoin.py','lib/interface.py', 'packages/trezorctl.py', 'lib/dnssec.py',
               ],
              hiddenimports=["PyQt4","lib","gui","plugins","trezorlib","hid"],
              pathex=['lib','gui','plugins','packages'],

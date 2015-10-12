@@ -1,7 +1,7 @@
 #!/bin/bash -l
 source helpers/build-common.sh
 set -xeo pipefail
-
+./make_requirements_txt.sh
 if [ -f /.dockerenv ] ; then
  #running the build from within a docker container
  echo "Building from within Docker - YMMV"
