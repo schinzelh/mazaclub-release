@@ -2,6 +2,11 @@
 source helpers/build-common.sh
 set -xeo pipefail
 
+if [ -f /.dockerenv ] ; then
+ #running the build from within a docker container
+ echo "Building from within Docker - YMMV"
+ touch .DIND
+fi
 # Main script
 OS=$(echo $0|awk -F "/" '{print $2}')
 VERSION="$1"
@@ -18,7 +23,7 @@ if [[ $? = 0 ]]; then
     echo "Build successful."
 else
   echo "Seems like the build failed. Exiting."
-  exit
+  exit 42
 fi
 
 # move completed builds from helpers/release-packages to releases/

@@ -2,6 +2,11 @@
 set -xeo pipefail
 source build-config.sh
 source helpers/build-common.sh
+test -f .DIND && find_docker
+echo "DOCKER BINARY IS AT ${DOCKERBIN}"
+test -z ${DOCKERBIN} && exit 1
+echo "DOCKER BINARY IS AT ${DOCKERBIN}"
+echo "DOCKER BINARY IS AT ${DOCKERBIN}"
 do_windows (){
  test -f helpers/hid.pyd || build_win32trezor
  for i in __init__.py darkcoin_hash.pyd groestlcoin_hash.pyd ltc_scrypt.pyd  neoscrypt.pyd  qubit_hash.pyd skeinhash.pyd ; do
@@ -29,8 +34,8 @@ do_windows
 echo "Windows C Extensions compiled"
 
 # Build docker images
-$DOCKERBIN images|awk '{print $1":"$2}'|grep "mazaclub/encompass-winbuild:${VERSION}" || buildImage winbuild
-$DOCKERBIN images|awk '{print $1":"$2}'|grep "mazaclub/encompass-release:${VERSION}" || buildImage release
+$DOCKERBIN images|awk '{print $1":"$2}'|grep "mazaclub/electrum-grs-winbuild:${VERSION}" || buildImage winbuild
+$DOCKERBIN images|awk '{print $1":"$2}'|grep "mazaclub/electrum-grs-release:${VERSION}" || buildImage release
 # touch FORCE_IMG_BUILD if you want to 
 test -f FORCE_IMG_BUILD &&  buildImage winbuild
 test -f FORCE_IMG_BUILD &&  buildImage release

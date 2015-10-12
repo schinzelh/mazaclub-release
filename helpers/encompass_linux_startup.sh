@@ -1,5 +1,5 @@
 #!/bin/bash
 DIR=INSTALL_DIR
-cd $DIR/encompass
-./encompass-x86_64.bin
+cd $DIR/electrum-grs
+./electrum-grs-x86_64.bin
 

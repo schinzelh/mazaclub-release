@@ -25,6 +25,7 @@ find_docker () {
 which docker || echo "docker" not found                                         
 if [[ $? = 0 ]]; then
   DOCKERBIN=$(which docker)
+  export DOCKERBIN=$(which docker)
   echo "export DOCKERBIN=$(which docker)" >> build-config.sh
   fi
 }
@@ -53,7 +54,8 @@ sign_release () {
 }
 
 build_win32trezor() {
- ./helpers/build-hidapi.sh
+ #./helpers/build-hidapi.sh
+ ./helpers/build-python-trezor-windows.sh
 }
 get_archpkg (){
   if [ "${TYPE}" = "SIGNED" ]
@@ -64,11 +66,11 @@ get_archpkg (){
   fi
   test -d ../../contrib/ArchLinux || mkdir -v ../../contrib/ArchLinux
   pushd ../../contrib/ArchLinux
-  wget https://aur.archlinux.org/packages/en/encompass-git/encompass-git.tar.gz
-  tar -xpzvf encompass-git.tar.gz
-  sed -e 's/_gitbranch\=.*/_gitbranch='${archbranch}'/g' encompass-git/PKGBUILD > encompass-git/PKGBUILD.new
-  mv encompass-git/PKGBUILD.new encompass-git/PKGBUILD
-  rm encompass-git.tar.gz
+  wget https://aur.archlinux.org/packages/en/electrum-grs-git/electrum-grs-git.tar.gz
+  tar -xpzvf electrum-grs-git.tar.gz
+  sed -e 's/_gitbranch\=.*/_gitbranch='${archbranch}'/g' electrum-grs-git/PKGBUILD > electrum-grs-git/PKGBUILD.new
+  mv electrum-grs-git/PKGBUILD.new electrum-grs-git/PKGBUILD
+  rm electrum-grs-git.tar.gz
   popd
 }
 prepare_repo(){
@@ -77,7 +79,7 @@ prepare_repo(){
 buildRelease(){
   test -d releases || mkdir -pv $(pwd)/releases
   # echo "Making locales" 
-  # $DOCKERBIN run --rm -it --privileged -e MKPKG_VER=${VERSION} -v $(pwd)/helpers:/root  -v $(pwd)/repo:/root/repo  -v $(pwd)/source:/opt/wine-electrum/drive_c/encompass/ -v $(pwd):/root/encompass-release mazaclub/encompass-release:${VERSION} /bin/bash
+  # $DOCKERBIN run --rm -it --privileged -e MKPKG_VER=${VERSION} -v $(pwd)/helpers:/root  -v $(pwd)/repo:/root/repo  -v $(pwd)/source:/opt/wine-electrum/drive_c/electrum-grs/ -v $(pwd):/root/electrum-grs-release mazaclub/electrum-grs-release:${VERSION} /bin/bash
   echo "Making Release packages for $VERSION"
   test -f helpers/build_release.complete || ./helpers/build_release.sh
 }
@@ -85,7 +87,8 @@ build_Windows(){
    echo "Making Windows EXEs for $VERSION" \
     && cp build-config.sh helpers/build-config.sh \
     && ./helpers/build_windows.sh \
-    && ls -la $(pwd)/helpers/release-packages/Windows/Encompass-${VERSION}-Windows-setup.exe \
+    && ls -la $(pwd)/helpers/release-packages/Windows/Electrum-grs-${VERSION}-Windows-setup.exe \
+    && sudo chown -R ${USER}.${USER} ./ \
     && mv $(pwd)/helpers/release-packages/Windows $(pwd)/releases/Windows \
     && touch releases/Windows/completed
 }
@@ -118,9 +121,9 @@ completeReleasePackage(){
 #  mv $(pwd)/helpers/release-packages/* $(pwd)/releases/
   if [ "${TYPE}" = "rc" ]; then export TYPE=SIGNED ; fi
   if [ "${TYPE}" = "SIGNED" ] ; then
-    ${DOCKERBIN} push mazaclub/encompass-winbuild:${VERSION}
-    ${DOCKERBIN} push mazaclub/encompass-release:${VERSION}
-    ${DOCKERBIN} push mazaclub/encompass32-release:${VERSION}
+    ${DOCKERBIN} push mazaclub/electrum-grs-winbuild:${VERSION}
+    ${DOCKERBIN} push mazaclub/electrum-grs-release:${VERSION}
+    ${DOCKERBIN} push mazaclub/electrum-grs32-release:${VERSION}
     ${DOCKERBIN} tag -f ogrisel/python-winbuilder mazaclub/python-winbuilder:${VERSION}
     ${DOCKERBIN} push mazaclub/python-winbuilder:${VERSION}
     cd releases
@@ -140,16 +143,16 @@ completeReleasePackage(){
       fi
     done
   fi
-  echo "You can find your Encompasss $VERSION binaries in the releases folder."
+  echo "You can find your Electrum-grs $VERSION binaries in the releases folder."
   
 }
 
 buildImage(){
   echo "Building image"
   case "${1}" in 
-  winbuild) $DOCKERBIN build -t mazaclub/encompass-winbuild:${VERSION} .
+  winbuild) $DOCKERBIN build -t mazaclub/electrum-grs-winbuild:${VERSION} .
          ;;
-   release) $DOCKERBIN build -f Dockerfile-release -t  mazaclub/encompass-release:${VERSION} .
+   release) $DOCKERBIN build -f Dockerfile-release -t  mazaclub/electrum-grs-release:${VERSION} .
          ;;
   esac
 }
@@ -172,11 +175,11 @@ buildCoinHash() {
 }
 
 prepareFile(){
-  echo "Preparing file for Encompass version $VERSION"
+  echo "Preparing file for Electrum-grs version $VERSION"
   if [ -e "$TARGETPATH" ]; then
     echo "Version tar already downloaded."
   else
-   wget https://github.com/mazaclub/encompass/archive/v${VERSION}.zip -O $TARGETPATH
+   wget https://github.com/mazaclub/electrum-grs/archive/v${VERSION}.zip -O $TARGETPATH
   fi
 
   if [ -d "$TARGETFOLDER" ]; then
@@ -217,4 +220,5 @@ pick_build () {
  esac
 }
 
+test -f .DIND && find_docker 
 test -f /.dockerenv || find_docker

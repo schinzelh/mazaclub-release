@@ -14,8 +14,8 @@ os.system(cmd)
 
 os.chdir('lib')
 
-crowdin_identifier = 'encompass'
-crowdin_file_name = 'encompass-client/messages.pot'
+crowdin_identifier = 'electrum-grs'
+crowdin_file_name = 'electrum-grs-client/messages.pot'
 locale_file_name = 'locale/messages.pot'
 
 if os.path.exists('../contrib/crowdin_api_key.txt'):
@@ -40,7 +40,7 @@ zfobj = zipfile.ZipFile(StringIO(urllib2.urlopen('http://crowdin.net/download/pr
 
 print 'Unzip translations'
 for name in zfobj.namelist():
-    if not name.startswith('encompass-client/locale'):
+    if not name.startswith('electrum-grs-client/locale'):
         continue
     if name.endswith('/'):
         if not os.path.exists(name[16:]):
@@ -59,6 +59,6 @@ for lang in os.listdir('locale'):
     mo_dir = 'locale/%s/LC_MESSAGES' % lang
     if not os.path.exists(mo_dir):
         os.mkdir(mo_dir)
-    cmd = 'msgfmt --output-file="%s/encompass.mo" "locale/%s/encompass.po"' % (mo_dir,lang)
+    cmd = 'msgfmt --output-file="%s/electrum-grs.mo" "locale/%s/electrum-grs.po"' % (mo_dir,lang)
     print 'Installing',lang
     os.system(cmd)
