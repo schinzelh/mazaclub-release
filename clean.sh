@@ -3,6 +3,7 @@
 CLEAN="$1"
 
 all(){
+ rm helpers/requirements.txt
  rm -rf repo
  rm prepared
  rm prepped
