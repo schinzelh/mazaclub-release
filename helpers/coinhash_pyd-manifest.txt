@@ -1,0 +1,7 @@
+__init__.py
+darkcoin_hash.pyd
+groestlcoin_hash.pyd
+ltc_scrypt.pyd
+neoscrypt.pyd
+qubit_hash.pyd
+skeinhash.pyd
