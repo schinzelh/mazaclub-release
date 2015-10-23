@@ -22,10 +22,10 @@ if [ "$(uname)" = "Darwin" ];
   cp ../python-trezor/trezorctl  packages/trezorctl.py
   /opt/local/bin/python2.7 ~/DEVEL/pyinstaller/pyinstaller.py  --onefile --windowed osx.spec
   test -d ../src || mkdir ../src 
-  mv dist/Electrum-GRS.app ../src/ 
+  mv dist/Electrum-DASH.app ../src/ 
   cd ..
   test -d helpers/release-packages/OSX || mkdir -pv helpers/release-packages/OSX
-  mv src/Electrum-GRS.app helpers/release-packages/OSX
+  mv src/Electrum-DASH.app helpers/release-packages/OSX
   cp helpers/make_OSX-installer.sh helpers/release-packages/OSX
   pushd helpers/release-packages/OSX
   find ./ -name 'qt.conf' | xargs touch

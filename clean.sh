@@ -10,9 +10,9 @@ all(){
  rm .DIND
  rm -rf releases/*
  rm build-config.sh helpers/build-config.sh
- rm -rf source/Electrum-GRS*
+ rm -rf source/Electrum-DASH*
  rm -rf source/Electrum-grs*
- rm -rf source/electrum-grs-setup.exe
+ rm -rf source/electrum-dash-setup.exe
  rm -rf ltc_scrypt*
  rm -rf helpers/release-packages
  rm -rf helpers/*.dylib
@@ -26,8 +26,8 @@ all(){
  rm -rf SocksiPy*
  rm -rf helpers/.??*
  rm -rf helpers/repo
- rm -rf helpers/electrum-grs-release
- rm -rf src/Electrum-GRS-*.dmg 
+ rm -rf helpers/electrum-dash-release
+ rm -rf src/Electrum-DASH-*.dmg 
  rm -rf src/Electrum-grs-*.dmg 
  rm -rf Makefile
  rm -rf helpers/debian_installer.sh
@@ -49,7 +49,7 @@ sudo chown -R ${USER}:${GROUP} .
 
 case $CLEAN in 
     osx) echo "Cleaning for build_osx.sh"
-         rm -rf src/Electrum-GRS.app
+         rm -rf src/Electrum-DASH.app
          rm -rf  helpers/release-packages/OSX*
          rm -rf  releases/OSX*
          rm -rf repo/build repo/dist

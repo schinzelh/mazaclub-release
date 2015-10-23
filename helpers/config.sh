@@ -16,8 +16,8 @@ if [[ $# -gt 0 ]]; then
   echo "export FILENAME=${MAZACLUB_PRODUCT}-$VERSION.zip" >> build-config.sh
   export TARGETPATH=$(pwd)/source/$FILENAME
   echo "export TARGETPATH=$(pwd)/source/$FILENAME" >> build-config.sh
-  export TARGETFOLDER=$(pwd)/source/Electrum-GRS-$VERSION
-  echo "export TARGETFOLDER=$(pwd)/source/Electrum-GRS-$VERSION" >> build-config.sh
+  export TARGETFOLDER=$(pwd)/source/Electrum-DASH-$VERSION
+  echo "export TARGETFOLDER=$(pwd)/source/Electrum-DASH-$VERSION" >> build-config.sh
   echo "Building ${MAZACLUB_PRODUCT} $VERSION from $FILENAME"
 else
   echo "Usage: ./build <version>."

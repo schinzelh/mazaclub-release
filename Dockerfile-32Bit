@@ -2,7 +2,7 @@ FROM ubuntu-32bit:14.04
 MAINTAINER Rob Nelson <guruvan@maza.club>
 ENV BUILDER_VER 1.1
 
-VOLUME ["/opt/wine-electrum/drive_c/electrum-grs"]
+VOLUME ["/opt/wine-electrum/drive_c/electrum-dash"]
 
 RUN apt-get update -y \
      && apt-get install -y software-properties-common curl  wget \

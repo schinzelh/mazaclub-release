@@ -22,8 +22,8 @@ if __name__ == '__main__':
     if (os.path.exists('data/themes')):
         os.system("pyrcc4 data/themes/theme_icons.qrc -o gui/qt/theme_icons_rc.py")
 
-    if (os.path.exists('dist/Electrum-GRS-$s/')):
-        shutil.copytree("packages",'dist/Electrum-GRS-%s/packages'%version)
+    if (os.path.exists('dist/Electrum-DASH-$s/')):
+        shutil.copytree("packages",'dist/Electrum-DASH-%s/packages'%version)
     else: 
         shutil.copytree("packages",'dist/Electrum-grs-%s/packages'%version)
 

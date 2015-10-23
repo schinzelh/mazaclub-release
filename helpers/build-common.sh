@@ -66,11 +66,11 @@ get_archpkg (){
   fi
   test -d ../../contrib/ArchLinux || mkdir -v ../../contrib/ArchLinux
   pushd ../../contrib/ArchLinux
-  wget https://aur.archlinux.org/packages/en/electrum-grs-git/electrum-grs-git.tar.gz
-  tar -xpzvf electrum-grs-git.tar.gz
-  sed -e 's/_gitbranch\=.*/_gitbranch='${archbranch}'/g' electrum-grs-git/PKGBUILD > electrum-grs-git/PKGBUILD.new
-  mv electrum-grs-git/PKGBUILD.new electrum-grs-git/PKGBUILD
-  rm electrum-grs-git.tar.gz
+  wget https://aur.archlinux.org/packages/en/electrum-dash-git/electrum-dash-git.tar.gz
+  tar -xpzvf electrum-dash-git.tar.gz
+  sed -e 's/_gitbranch\=.*/_gitbranch='${archbranch}'/g' electrum-dash-git/PKGBUILD > electrum-dash-git/PKGBUILD.new
+  mv electrum-dash-git/PKGBUILD.new electrum-dash-git/PKGBUILD
+  rm electrum-dash-git.tar.gz
   popd
 }
 prepare_repo(){
@@ -79,7 +79,7 @@ prepare_repo(){
 buildRelease(){
   test -d releases || mkdir -pv $(pwd)/releases
   # echo "Making locales" 
-  # $DOCKERBIN run --rm -it --privileged -e MKPKG_VER=${VERSION} -v $(pwd)/helpers:/root  -v $(pwd)/repo:/root/repo  -v $(pwd)/source:/opt/wine-electrum/drive_c/electrum-grs/ -v $(pwd):/root/electrum-grs-release mazaclub/electrum-grs-release:${VERSION} /bin/bash
+  # $DOCKERBIN run --rm -it --privileged -e MKPKG_VER=${VERSION} -v $(pwd)/helpers:/root  -v $(pwd)/repo:/root/repo  -v $(pwd)/source:/opt/wine-electrum/drive_c/electrum-dash/ -v $(pwd):/root/electrum-dash-release mazaclub/electrum-dash-release:${VERSION} /bin/bash
   echo "Making Release packages for $VERSION"
   test -f helpers/build_release.complete || ./helpers/build_release.sh
 }
@@ -121,9 +121,9 @@ completeReleasePackage(){
 #  mv $(pwd)/helpers/release-packages/* $(pwd)/releases/
   if [ "${TYPE}" = "rc" ]; then export TYPE=SIGNED ; fi
   if [ "${TYPE}" = "SIGNED" ] ; then
-    ${DOCKERBIN} push mazaclub/electrum-grs-winbuild:${VERSION}
-    ${DOCKERBIN} push mazaclub/electrum-grs-release:${VERSION}
-    ${DOCKERBIN} push mazaclub/electrum-grs32-release:${VERSION}
+    ${DOCKERBIN} push mazaclub/electrum-dash-winbuild:${VERSION}
+    ${DOCKERBIN} push mazaclub/electrum-dash-release:${VERSION}
+    ${DOCKERBIN} push mazaclub/electrum-dash32-release:${VERSION}
     ${DOCKERBIN} tag -f ogrisel/python-winbuilder mazaclub/python-winbuilder:${VERSION}
     ${DOCKERBIN} push mazaclub/python-winbuilder:${VERSION}
     cd releases
@@ -150,9 +150,9 @@ completeReleasePackage(){
 buildImage(){
   echo "Building image"
   case "${1}" in 
-  winbuild) $DOCKERBIN build -t mazaclub/electrum-grs-winbuild:${VERSION} .
+  winbuild) $DOCKERBIN build -t mazaclub/electrum-dash-winbuild:${VERSION} .
          ;;
-   release) $DOCKERBIN build -f Dockerfile-release -t  mazaclub/electrum-grs-release:${VERSION} .
+   release) $DOCKERBIN build -f Dockerfile-release -t  mazaclub/electrum-dash-release:${VERSION} .
          ;;
   esac
 }
@@ -179,7 +179,7 @@ prepareFile(){
   if [ -e "$TARGETPATH" ]; then
     echo "Version tar already downloaded."
   else
-   wget https://github.com/mazaclub/electrum-grs/archive/v${VERSION}.zip -O $TARGETPATH
+   wget https://github.com/mazaclub/electrum-dash/archive/v${VERSION}.zip -O $TARGETPATH
   fi
 
   if [ -d "$TARGETFOLDER" ]; then

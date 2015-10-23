@@ -11,9 +11,9 @@ if [ "${COIN_SYM}" = "${coin_sym}" ] ;
  exit 2
 fi
 
-for i in $(grep -ir electrum-grs *|awk -F\: '{print $1}'|egrep -v 'build[A-Z]'|sort -u) ; do 
+for i in $(grep -ir electrum-dash *|awk -F\: '{print $1}'|egrep -v 'build[A-Z]'|sort -u) ; do 
   test -h ${i} \
-   || sed -e 's/Electrum-GRS/Electrum-'${COIN_SYM}'/g' \
-          -e 's/electrum-grs/electrum-'${coin_sym}'/g' ${i} > ${i}.new \
+   || sed -e 's/Electrum-DASH/Electrum-'${COIN_SYM}'/g' \
+          -e 's/electrum-dash/electrum-'${coin_sym}'/g' ${i} > ${i}.new \
    && mv ${i}.new ${i}
 done

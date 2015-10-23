@@ -16,7 +16,7 @@ if __name__ == '__main__':
 
     os.system('rm -rf dist/e4a-%s'%version)
     os.mkdir('dist/e4a-%s'%version)
-    shutil.copyfile("electrum-grs",'dist/e4a-%s/e4a.py'%version)
+    shutil.copyfile("electrum-dash",'dist/e4a-%s/e4a.py'%version)
     shutil.copytree("packages",'dist/e4a-%s/packages'%version)
     shutil.copytree("lib",'dist/e4a-%s/lib'%version)
     os.mkdir('dist/e4a-%s/gui'%version)

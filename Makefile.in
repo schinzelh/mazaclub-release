@@ -18,11 +18,11 @@
 # Customizable variables
 ################################################################################
 
-NAME ?= Electrum-GRS
+NAME ?= Electrum-DASH
 VERSION ?= ELECTRUM_VERSION
 
 SOURCE_DIR ?= src
-SOURCE_FILES ?= Electrum-GRS.app 
+SOURCE_FILES ?= Electrum-DASH.app 
 
 TEMPLATE_DMG ?= template.dmg
 

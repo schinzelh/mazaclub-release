@@ -2,7 +2,7 @@ FROM guruvan/ubuntu-32bit:14.04
 # IMAGE
 MAINTAINER Rob Nelson <guruvan@maza.club>
 
-VOLUME ["/opt/wine-electrum/drive_c/electrum-grs"]
+VOLUME ["/opt/wine-electrum/drive_c/electrum-dash"]
 
 RUN apt-get update -y \
      && apt-get install -y software-properties-common && add-apt-repository -y ppa:ubuntu-wine/ppa \
@@ -25,7 +25,7 @@ ENV NSIS_URL http://prdownloads.sourceforge.net/nsis/nsis-2.46-setup.exe?downloa
 ENV WINEPREFIX /opt/wine-electrum
 RUN export WINEPREFIX=/opt/wine-electrum
 
-ENV ELECTRUM_PATH $WINE_PREFIX/drive_c/electrum-grs
+ENV ELECTRUM_PATH $WINE_PREFIX/drive_c/electrum-dash
 ENV PYHOME c:/Python27
 ENV PYTHON xvfb-run -a wine $PYHOME/python.exe -B
 ENV PIP $PYTHON -m pip

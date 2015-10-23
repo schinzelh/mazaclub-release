@@ -1,4 +1,4 @@
-## Electrum-GRS Release Packaging system
+## Electrum-DASH Release Packaging system
  
  * Builds multiplatform release
  * Builds 32bit Windows release & Instaler 
@@ -24,13 +24,13 @@
  * OSX buildhosts will build all all packages, Linux hosts are limited to building 
    Linux, and Windows packages. 
 
-### This contains the full and complete release process for Electrum-GRS as followed by mazaclub.
+### This contains the full and complete release process for Electrum-DASH as followed by mazaclub.
 
  * ** Mazaclub release packages are built via OSX in a single run with the following command: **
     ```
     ./build.sh 0.5.0 SIGNED
     ```
-    This clones https://github.com/mazaclub/electrum-grs to
+    This clones https://github.com/mazaclub/electrum-dash to
     ```
     contrib/mazaclub-release/repo
     ```
@@ -122,10 +122,10 @@ since the build script runs directly on the host, writing to the host's filesyst
 and this doesn't provide the mean to specify a docker version,this is not 100% deterministic. 
 A future update will include a vagrant box file to specify a build VM to run the build script.
 
-The script also does a little extra work as we integrate it into Electrum-GRS and our release process.
+The script also does a little extra work as we integrate it into Electrum-DASH and our release process.
 
 There's a lot to apt-get in the Dockerfile, this will take a while to build 
-the docker image. Once the docker image is built on your machine, the Electrum-GRS build 
+the docker image. Once the docker image is built on your machine, the Electrum-DASH build 
 runs quickly. 
 
 Preparation Steps are only run once between full cleanings

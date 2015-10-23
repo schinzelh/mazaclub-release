@@ -34,8 +34,8 @@ do_windows
 echo "Windows C Extensions compiled"
 
 # Build docker images
-$DOCKERBIN images|awk '{print $1":"$2}'|grep "mazaclub/electrum-grs-winbuild:${VERSION}" || buildImage winbuild
-$DOCKERBIN images|awk '{print $1":"$2}'|grep "mazaclub/electrum-grs-release:${VERSION}" || buildImage release
+$DOCKERBIN images|awk '{print $1":"$2}'|grep "mazaclub/electrum-dash-winbuild:${VERSION}" || buildImage winbuild
+$DOCKERBIN images|awk '{print $1":"$2}'|grep "mazaclub/electrum-dash-release:${VERSION}" || buildImage release
 # touch FORCE_IMG_BUILD if you want to 
 test -f FORCE_IMG_BUILD &&  buildImage winbuild
 test -f FORCE_IMG_BUILD &&  buildImage release
