@@ -25,12 +25,12 @@ if __name__ == '__main__':
     if (os.path.exists('dist/Electrum-DASH-$s/')):
         shutil.copytree("packages",'dist/Electrum-DASH-%s/packages'%version)
     else: 
-        shutil.copytree("packages",'dist/Electrum-grs-%s/packages'%version)
+        shutil.copytree("packages",'dist/Electrum-DASH-%s/packages'%version)
 
     os.system("python setup.py sdist --format=zip,gztar")
     
-    _tgz="Electrum-grs-%s.tar.gz"%version
-    _zip="Electrum-grs-%s.zip"%version
+    _tgz="Electrum-DASH-%s.tar.gz"%version
+    _zip="Electrum-DASH-%s.zip"%version
 
     os.chdir("dist")
     #password = getpass.getpass("Password:")

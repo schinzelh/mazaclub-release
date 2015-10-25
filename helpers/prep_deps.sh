@@ -9,11 +9,13 @@ echo "DOCKER BINARY IS AT ${DOCKERBIN}"
 echo "DOCKER BINARY IS AT ${DOCKERBIN}"
 do_windows (){
  test -f helpers/hid.pyd || build_win32trezor
- for i in __init__.py darkcoin_hash.pyd groestlcoin_hash.pyd ltc_scrypt.pyd  neoscrypt.pyd  qubit_hash.pyd skeinhash.pyd ; do
-  test -f helpers/coinhash/${i} || touch buildcoinhash.yes
- done
- test -f buildcoinhash.yes && buildCoinHash 
- test -f buildcoinhash.yes && rm buildcoinhash.yes
+# for i in __init__.py darkcoin_hash.pyd groestlcoin_hash.pyd ltc_scrypt.pyd  neoscrypt.pyd  qubit_hash.pyd skeinhash.pyd ; do
+ # test -f helpers/coinhash/${i} || touch buildcoinhash.yes
+# done
+ #test -f buildcoinhash.yes && buildCoinHash 
+# test -f buildcoinhash.yes && rm buildcoinhash.yes
+ # one shot to buildCoinhash to build x11_hash for dash
+ buildCoinHash
  echo "do_windows done"
 }
 

@@ -15,8 +15,9 @@ if [ "$(uname)" = "Darwin" ];
   VER="$1"
   sed 's/ELECTRUM_VERSION/'${VER}'/g' Makefile.in > Makefile
   sed 's/ELECTRUM_VERSION/'${VER}'/g' source/osx.spec > repo/osx.spec
+  rm -rf src/*
   cd repo
-  rm -rf packages
+  rm -rf packages build dist
   pip install  --no-compile -t packages -r ../helpers/requirements.txt
   #pip install  --upgrade  --no-compile -t packages -r ../helpers/requirements.txt
   cp ../python-trezor/trezorctl  packages/trezorctl.py

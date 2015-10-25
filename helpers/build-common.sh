@@ -87,7 +87,7 @@ build_Windows(){
    echo "Making Windows EXEs for $VERSION" \
     && cp build-config.sh helpers/build-config.sh \
     && ./helpers/build_windows.sh \
-    && ls -la $(pwd)/helpers/release-packages/Windows/Electrum-grs-${VERSION}-Windows-setup.exe \
+    && ls -la $(pwd)/helpers/release-packages/Windows/Electrum-DASH-${VERSION}-Windows-setup.exe \
     && sudo chown -R ${USER}.${USER} ./ \
     && mv $(pwd)/helpers/release-packages/Windows $(pwd)/releases/Windows \
     && touch releases/Windows/completed
@@ -143,7 +143,7 @@ completeReleasePackage(){
       fi
     done
   fi
-  echo "You can find your Electrum-grs $VERSION binaries in the releases folder."
+  echo "You can find your Electrum-DASH $VERSION binaries in the releases folder."
   
 }
 
@@ -171,11 +171,13 @@ buildLtcScrypt() {
 
 }
 buildCoinHash() {
-  ./helpers/build_coinhash.sh
+  ./helpers/build_x11-hash.sh
+  # build with dashpay/x11_hash instead of coinhash
+  # ./helpers/build_coinhash.sh
 }
 
 prepareFile(){
-  echo "Preparing file for Electrum-grs version $VERSION"
+  echo "Preparing file for Electrum-DASH version $VERSION"
   if [ -e "$TARGETPATH" ]; then
     echo "Version tar already downloaded."
   else

@@ -121,18 +121,20 @@ cp -av /root/trezorctl.py ./packages/
 ./make_windows
 test -d /root/release-packages/Windows || mkdir -pv /root/release-packages/Windows
 
-rm -rf /opt/wine-electrum/drive_c/electrum-dash/Electrum-grs-"$VERSION".*
-rm -rf /opt/wine-electrum/drive_c/electrum-dash/Electrum-grs-"$VERSION"/
-rm -rf /opt/wine-electrum/drive_c/electrum-dash/Electrum-grs-"$VERSION"*
-cp -v /root/repo/dist/Electrum-grs-"$VERSION".zip /opt/wine-electrum/drive_c/electrum-dash/Electrum-grs-"$VERSION".zip
+rm -rf /opt/wine-electrum/drive_c/electrum-dash/Electrum-DASH-"$VERSION".*
+rm -rf /opt/wine-electrum/drive_c/electrum-dash/Electrum-DASH-"$VERSION"/
+rm -rf /opt/wine-electrum/drive_c/electrum-dash/Electrum-DASH-"$VERSION"*
+cp -v /root/repo/dist/Electrum-DASH-"$VERSION".zip /opt/wine-electrum/drive_c/electrum-dash/Electrum-DASH-"$VERSION".zip
 cp -av dist/* /root/release-packages/Windows
 cd /opt/wine-electrum/drive_c/electrum-dash
-unzip Electrum-grs-"$VERSION".zip
-cp -av /root/coinhash/*.pyd /opt/wine-electrum/drive_c/electrum-dash/Electrum-grs-"$VERSION"/lib
-cp -av /root/hid.pyd /opt/wine-electrum/drive_c/electrum-dash/Electrum-grs-"${VERSION}"/lib
-cp -av /root/hid.pyd /opt/wine-electrum/drive_c/electrum-dash/Electrum-grs-"${VERSION}"
-test -d /opt/wine-electrum/drive_c/electrum-dash/Electrum-grs-"${VERSION}"/requests  || mkdir  /opt/wine-electrum/drive_c/electrum-dash/Electrum-grs-"${VERSION}"/requests    
-cp -av /root/repo/packages/requests//cacert.pem  /opt/wine-electrum/drive_c/electrum-dash/Electrum-grs-"${VERSION}"/requests
+unzip Electrum-DASH-"$VERSION".zip
+# special x11_hash for DASH
+#cp -av /root/coinhash/*.pyd /opt/wine-electrum/drive_c/electrum-dash/Electrum-DASH-"$VERSION"/lib
+cp -av /root/x11_hash*.pyd /opt/wine-electrum/drive_c/electrum-dash/Electrum-DASH-"$VERSION"/lib
+cp -av /root/hid.pyd /opt/wine-electrum/drive_c/electrum-dash/Electrum-DASH-"${VERSION}"/lib
+cp -av /root/hid.pyd /opt/wine-electrum/drive_c/electrum-dash/Electrum-DASH-"${VERSION}"
+test -d /opt/wine-electrum/drive_c/electrum-dash/Electrum-DASH-"${VERSION}"/requests  || mkdir  /opt/wine-electrum/drive_c/electrum-dash/Electrum-DASH-"${VERSION}"/requests    
+cp -av /root/repo/packages/requests//cacert.pem  /opt/wine-electrum/drive_c/electrum-dash/Electrum-DASH-"${VERSION}"/requests
 echo "Windows Complete"
 
 touch /root/build_release.complete

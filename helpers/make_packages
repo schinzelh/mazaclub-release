@@ -23,8 +23,8 @@ if __name__ == '__main__':
 
     os.system("python setup.py sdist --format=zip,gztar")
     
-    _tgz="Electrum-grs-%s.tar.gz"%version
-    _zip="Electrum-grs-%s.zip"%version
+    _tgz="Electrum-DASH-%s.tar.gz"%version
+    _zip="Electrum-DASH-%s.zip"%version
 
     os.chdir("dist")
     #password = getpass.getpass("Password:")

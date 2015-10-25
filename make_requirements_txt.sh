@@ -46,7 +46,10 @@ done < helpers/requirements.tmp
 rm helpers/requirements.tmp
 rm helpers/req.tmp
 
-   
+# special for dash x11_hash
+sed '/x11_hash\=\=/d'  helpers/requirements.txt > helpers/req.txt
+mv helpers/req.txt helpers/requirements.txt
+
      
 
 
