@@ -88,7 +88,7 @@ build_Windows(){
     && cp build-config.sh helpers/build-config.sh \
     && ./helpers/build_windows.sh \
     && ls -la $(pwd)/helpers/release-packages/Windows/Electrum-DASH-${VERSION}-Windows-setup.exe \
-    && sudo chown -R ${USER}.${USER} ./ \
+    && sudo chown -R ${USER}:${USER} ./ \
     && mv $(pwd)/helpers/release-packages/Windows $(pwd)/releases/Windows \
     && touch releases/Windows/completed
 }
