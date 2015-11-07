@@ -87,22 +87,26 @@ build_Windows(){
    echo "Making Windows EXEs for $VERSION" \
     && cp build-config.sh helpers/build-config.sh \
     && ./helpers/build_windows.sh \
-    && ls -la $(pwd)/helpers/release-packages/Windows/Electrum-DASH-${VERSION}-Windows-setup.exe \
-    && sudo chown -R ${USER}:${USER} ./ \
+    && sudo chown -R ${USER} ./ \
     && mv $(pwd)/helpers/release-packages/Windows $(pwd)/releases/Windows \
     && touch releases/Windows/completed
+    #&& ls -la $(pwd)/helpers/release-packages/Windows/Electrum-DASH-${VERSION}-Windows-setup.exe 
 }
 build_OSX(){
    echo "Attempting OSX Build: Requires Darwin Buildhost" 
   if [ "$(uname)" = "Darwin" ];
    then
-   if [ ! -f /opt/local/bin/python2.7 ]
-   then 
-    echo "This build requires macports python2.7 and pyqt4"
-    exit 5
+   echo "Checking for macports or Homebrew" 
+   MYPY=""
+   test -f /usr/local/bin/python2.7 && MYPY="/usr/local/bin/python2.7"
+   test -f /opt/local/bin/python2.7 && MYPY="/opt/local/bin/python2.7"
+   if [ "${MYPY}X" = "X" ] ; then 
+       echo "This build requires macports or homebrew with  python2.7 and pyqt4"
+       exit 5
    fi
-  ./helpers/build_osx.sh ${VERSION} 
-  mv helpers/release-packages/OSX helpers/release-packages/OSX-py2app
+ # py2app is no longer supported
+ # ./helpers/build_osx.sh ${VERSION} 
+ # mv helpers/release-packages/OSX helpers/release-packages/OSX-py2app
   ./helpers/build_osx-pyinstaller.sh  ${VERSION} $TYPE
  else
   echo "OSX Build Requires OSX build host!"
@@ -118,31 +122,33 @@ build_Linux(){
    && touch releases/Linux/completed
 }
 completeReleasePackage(){
+./helpers/complete_release-package.sh
 #  mv $(pwd)/helpers/release-packages/* $(pwd)/releases/
-  if [ "${TYPE}" = "rc" ]; then export TYPE=SIGNED ; fi
-  if [ "${TYPE}" = "SIGNED" ] ; then
-    ${DOCKERBIN} push mazaclub/electrum-dash-winbuild:${VERSION}
-    ${DOCKERBIN} push mazaclub/electrum-dash-release:${VERSION}
-    ${DOCKERBIN} push mazaclub/electrum-dash32-release:${VERSION}
-    ${DOCKERBIN} tag -f ogrisel/python-winbuilder mazaclub/python-winbuilder:${VERSION}
-    ${DOCKERBIN} push mazaclub/python-winbuilder:${VERSION}
-    cd releases
-    for release in * 
-    do
-      if [ ! -d ${release} ]; then
-         sign_release ${release}
-      else
-         cd ${release}
-         for i in * 
-         do 
-           if [ ! -d ${i} ]; then
-              sign_release ${i}
-	   fi
-         done
-         cd ..
-      fi
-    done
-  fi
+#  if [ "${TYPE}" = "rc" ]; then export TYPE=SIGNED ; fi
+#  if [ "${TYPE}" = "SIGNED" ] ; then
+  #  ${DOCKERBIN} push mazaclub/electrum-dash-winbuild:${VERSION}
+  #  ${DOCKERBIN} push mazaclub/electrum-dash-release:${VERSION}
+  #  ${DOCKERBIN} push mazaclub/electrum-dash32-release:${VERSION}
+  #  ${DOCKERBIN} tag -f ogrisel/python-winbuilder mazaclub/python-winbuilder:${VERSION}
+  #  ${DOCKERBIN} push mazaclub/python-winbuilder:${VERSION}
+  #  cd releases
+  #  for release in * 
+  #  do
+  #    if [ ! -d ${release} ]; then
+  #       sign_release ${release}
+  #    else
+  #       cd ${release}
+  #       for i in * 
+  #       do 
+  #         if [ ! -d ${i} ]; then
+  #            sign_release ${i}
+#	   fi
+#         done
+#s
+#         cd ..
+#      fi
+#    done
+#  fi
   echo "You can find your Electrum-DASH $VERSION binaries in the releases folder."
   
 }
@@ -216,6 +222,10 @@ pick_build () {
                 if [ "${TYPE}" = "local" ] ; then
 		 for i in Windows Linux OSX ; do
                    test -f releases/${i}/completed || build_${i} 
+		 done
+                elif [ "${TYPE}" = "rc" ] ; then
+		 for i in Windows Linux OSX ; do
+                   build_${i} 
 		 done
                  fi || die 95
                 ;;

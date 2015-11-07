@@ -12,7 +12,7 @@
    ogrisel/python-winbuilder wineconsole --backend=curses Z:\\helpers\\python-trezor-build.bat
    #ogrisel/python-winbuilder wineconsole --backend=curses cmd
  cp -av cython-hidapi/build/lib.win32-2.7/hid.pyd ./helpers
- sudo chown -R ${USER}:${USER}  python-trezor 
+ sudo chown -R ${USER}  python-trezor 
  pushd python-trezor/dist
  unzip trezor-*.win32.zip
  popd

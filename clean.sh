@@ -36,6 +36,7 @@ all(){
  rm -rf python-trezor
  rm -rf helpers/coinhash
  rm helpers/build_release.complete
+ rm helpers/requirements.txt*
 }
 USER=$(whoami)
 HOST=$(uname)

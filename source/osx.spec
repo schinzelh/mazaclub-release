@@ -41,6 +41,7 @@ a.datas += extra_datas('lib')
 a.datas += extra_datas('plugins')
 a.datas += [ ('packages/requests/cacert.pem', 'packages/requests/cacert.pem', 'DATA') ]
 a.datas += [ ('packages/trezorctl.py', 'packages/trezorctl.py', 'DATA') ]
+a.datas += [ ('lib/wordlist/english.txt', 'electrum_dash/lib/wordlist/english.txt', 'DATA') ]
 
 # Dependencies
 a.datas += extra_datas('packages')

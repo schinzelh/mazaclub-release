@@ -1,4 +1,5 @@
  repo/
+.DS_Store
  prepared
  prepped
  .DIND
