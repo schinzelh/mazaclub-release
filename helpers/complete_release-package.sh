@@ -4,12 +4,6 @@ source build-config.sh
 source helpers/build-common.sh
 
 sign_release () {
-         echo "Build produced by Mazaclub" > ${topdir}/Electrum-DASH-${VERSION}.sums
-         echo "Built with $(grep -i url .git/config)" >> ${topdir}/Electrum-DASH-${VERSION}.sums
-	 echo "Built from $(grep -i url repo/.git/config)" >> ${topdir}/Electrum-DASH-${VERSION}.sums
-	 echo "build-config.sh:" >> ${topdir}/Electrum-DASH-${VERSION}.sums
-	 echo " " >> ${topdir}/Electrum-DASH-${VERSION}.sums
-	 cat helpers/build-config.sh >> ${topdir}/Electrum-DASH-${VERSION}.sums
          sha1sum ${1} > ${1}.sha1
 	 echo "${1} SHA1 Sum:" >>  ${topdir}/Electrum-DASH-${VERSION}.sums
          cat ${1}.sha1 >> ${topdir}/Electrum-DASH-${VERSION}.sums
@@ -21,16 +15,35 @@ sign_release () {
          gpg --sign --armor --detach  ${1}.sha1
 }
 
-  mv $(pwd)/helpers/release-packages/* $(pwd)/releases/
+   
   if [ "${TYPE}" = "SIGNED" ] ; then
     ${DOCKERBIN} push mazaclub/electrum-dash-winbuild:${VERSION}
     ${DOCKERBIN} push mazaclub/electrum-dash-release:${VERSION}
     ${DOCKERBIN} push mazaclub/electrum-dash32-release:${VERSION}
     ${DOCKERBIN} tag -f ogrisel/python-winbuilder mazaclub/python-winbuilder:${VERSION}
     ${DOCKERBIN} push mazaclub/python-winbuilder:${VERSION}
+  fi
+
   if [ "${TYPE}" = "rc" ]; then export TYPE=SIGNED ; fi
+  if [ "${TYPE}" = "SIGNED" ] ; then
+cd releases
+for i in * ; do
+ test -f ${i}/completed && rm ${i}/completed*
+done
+rm -rf Windows/Electrum-DASH-${VERSION}/
+rm -rf Windows/Electrum-DASH-${VERSION}.*
+rm -rf Windows/Electrum-DASH-${VERSION}.*
+rm -rf OSX/Electrum-DASH*tmp*
+rm -rf OSX/Electrum-DASH.app
+rm -rf OSX/Distribution*
+rm -rf OSX/Resources
+rm -rf OSX/Electrum-DASH*pre*
+rm -rf OSX/make_*
+cd ..
     topdir=$(pwd)
-    test -f Electrum-DASH-${VERSION}.sums && rm  Electrum-DASH-${VERSION}.sums
+
+         echo "Build produced by Mazaclub" > ${topdir}/Electrum-DASH-${VERSION}.sums
+      
     cd releases
     for release in * 
     do
@@ -45,9 +58,9 @@ sign_release () {
 	   fi
          done
          cd ..
+      cat  ${topdir}/Electrum-DASH-${VERSION}.sums
       fi
     done
   fi
-  gpg --sign --armor --detach Electrum-DASH-${VERSION}.sums
-  mv Electrum-DASH-${VERSION}.sums* releases/
+#  mv Electrum-DASH-${VERSION}.sums* releases/
   echo "You can find your Electrum-DASHs $VERSION binaries in the releases folder."

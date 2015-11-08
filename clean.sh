@@ -35,8 +35,11 @@ all(){
  rm -rf cython-hidapi
  rm -rf python-trezor
  rm -rf helpers/coinhash
+ rm -rf x11_hash/
  rm helpers/build_release.complete
  rm helpers/requirements.txt*
+ rm helpers/release-packages/.DS_Store
+ rm releases/.DS_Store
 }
 USER=$(whoami)
 HOST=$(uname)

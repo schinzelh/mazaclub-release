@@ -123,32 +123,6 @@ build_Linux(){
 }
 completeReleasePackage(){
 ./helpers/complete_release-package.sh
-#  mv $(pwd)/helpers/release-packages/* $(pwd)/releases/
-#  if [ "${TYPE}" = "rc" ]; then export TYPE=SIGNED ; fi
-#  if [ "${TYPE}" = "SIGNED" ] ; then
-  #  ${DOCKERBIN} push mazaclub/electrum-dash-winbuild:${VERSION}
-  #  ${DOCKERBIN} push mazaclub/electrum-dash-release:${VERSION}
-  #  ${DOCKERBIN} push mazaclub/electrum-dash32-release:${VERSION}
-  #  ${DOCKERBIN} tag -f ogrisel/python-winbuilder mazaclub/python-winbuilder:${VERSION}
-  #  ${DOCKERBIN} push mazaclub/python-winbuilder:${VERSION}
-  #  cd releases
-  #  for release in * 
-  #  do
-  #    if [ ! -d ${release} ]; then
-  #       sign_release ${release}
-  #    else
-  #       cd ${release}
-  #       for i in * 
-  #       do 
-  #         if [ ! -d ${i} ]; then
-  #            sign_release ${i}
-#	   fi
-#         done
-#s
-#         cd ..
-#      fi
-#    done
-#  fi
   echo "You can find your Electrum-DASH $VERSION binaries in the releases folder."
   
 }
