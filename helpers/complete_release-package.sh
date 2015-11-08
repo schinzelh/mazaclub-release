@@ -4,6 +4,12 @@ source build-config.sh
 source helpers/build-common.sh
 
 sign_release () {
+         echo "Build produced by Mazaclub" > ${topdir}/Electrum-DASH-${VERSION}.sums
+         echo "Built with $(grep -i url .git/config)" >> ${topdir}/Electrum-DASH-${VERSION}.sums
+	 echo "Built from $(grep -i url repo/.git/config)" >> ${topdir}/Electrum-DASH-${VERSION}.sums
+	 echo "build-config.sh:" >> ${topdir}/Electrum-DASH-${VERSION}.sums
+	 echo " " >> ${topdir}/Electrum-DASH-${VERSION}.sums
+	 cat helpers/build-config.sh >> ${topdir}/Electrum-DASH-${VERSION}.sums
          sha1sum ${1} > ${1}.sha1
 	 echo "${1} SHA1 Sum:" >>  ${topdir}/Electrum-DASH-${VERSION}.sums
          cat ${1}.sha1 >> ${topdir}/Electrum-DASH-${VERSION}.sums
