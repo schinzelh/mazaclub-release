@@ -48,18 +48,24 @@ rm helpers/requirements.tmp
 rm helpers/req.tmp
 
 # special for dash x11_hash
-sed '/x11_hash\=\=/d'  helpers/requirements.txt > helpers/req.txt
 
+sed '/x11_hash\=\=/d'  helpers/requirements.txt > helpers/req.txt 
 mv helpers/req.txt helpers/requirements.txt
 }
+rm helpers/reqs.txt
+   rm helpers/requirements.txt
+   rm helpers/requirements.tmp
 
 if [ -f repo/requirements.txt ] ; then
    # specify versions
-   cat ../../requirements.txt| awk -F'[><=]' '{print $1}' > helpers/reqs.txt
+   cat ../../requirements.txt| grep -v "git+http" |  awk -F'[><=]' '{print $1}' > helpers/reqs.txt
    rm helpers/requirements.txt
+   rm helpers/requirements.tmp
    while read reqdep ; do
-      echo "${reqdep}==$(grep ${reqdep} helpers/pip_requirements.ver | awk '{print $2}')" >> helpers/requirements.txt
+      echo "${reqdep}==$(grep ${reqdep} helpers/pip_requirements.ver | awk '{print $2}')" >> helpers/requirements.tmp
    done < helpers/reqs.txt
+   cat ../../requirements.txt | grep "git+http" >> helpers/requirements.tmp
+ sed '/x11_hash\=\=/d'  helpers/requirements.tmp > helpers/requirements.txt 
 else from_scratch
 fi
 
