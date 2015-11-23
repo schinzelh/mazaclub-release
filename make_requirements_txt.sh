@@ -65,7 +65,6 @@ if [ -f repo/requirements.txt ] ; then
       echo "${reqdep}==$(grep ${reqdep} helpers/pip_requirements.ver | awk '{print $2}')" >> helpers/requirements.tmp
    done < helpers/reqs.txt
    cat ../../requirements.txt | grep "git+http" >> helpers/requirements.tmp
- sed '/x11_hash\=\=/d'  helpers/requirements.tmp > helpers/requirements.txt 
 else from_scratch
 fi
 
