@@ -24,6 +24,7 @@ do_windows (){
 test -d python-trezor || git clone https://github.com/mazaclub/python-trezor
 # prepare repo for local build
 test -f prepared || ./helpers/prepare_repo.sh
+./make_requirements_txt.sh
 #get_archpkg
 
 # build windows C extensions

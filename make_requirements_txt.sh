@@ -1,5 +1,6 @@
 #!/bin/bash
 
+from_scratch(){
 rm reqs.txt deplinx.txt
  while read line ; do 
     x=$(echo ${line}| awk -F\( '{print $1}') ; 
@@ -48,8 +49,18 @@ rm helpers/req.tmp
 
 # special for dash x11_hash
 sed '/x11_hash\=\=/d'  helpers/requirements.txt > helpers/req.txt
-mv helpers/req.txt helpers/requirements.txt
 
-     
+mv helpers/req.txt helpers/requirements.txt
+}
+
+if [ -f repo/requirements.txt ] ; then
+   # specify versions
+   cat ../../requirements.txt| awk -F'[><=]' '{print $1}' > helpers/reqs.txt
+   rm helpers/requirements.txt
+   while read reqdep ; do
+      echo "${reqdep}==$(grep ${reqdep} helpers/pip_requirements.ver | awk '{print $2}')" >> helpers/requirements.txt
+   done < helpers/reqs.txt
+else from_scratch
+fi
 
 

@@ -13,6 +13,8 @@ protobuf 2.5.0
 mnemonic 0.8
 ltc_scrypt 1.0
 coinhash 1.1.5
+x11_hash 1.4
+trezor 0.6.3
 git+https://github.com/guruvan/darkcoin_hash#egg=darkcoin_hash
 git+https://github.com/mazaclub/python-trezor#egg=trezor
 
