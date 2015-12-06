@@ -34,6 +34,10 @@ check_ver () {
 
 install_pip () {
 ## install dependencies to build environment
+test -f /root/repo/packages \
+  && cd /root/repo/packages \
+  && rm -rf _markerlib/ aes.py dnspython-1.12.0.egg-info/ easy_install.py ecdsa/ hid.so hid* mnem* pbkd* pkg_resources/ protobuf-2.5.0* qrcode* requests* setuptools* six* slowaes-0.1a1.egg-info/ trezor* x11_hash* ecdsa* dns/dns
+ cd /root/repo
 pip install  --upgrade  --no-compile -t packages -r /root/requirements.txt
 pip install  --upgrade -r /root/requirements.txt
 
@@ -42,32 +46,33 @@ pip install  --upgrade -r /root/requirements.txt
 cd /root
 ### make release tarballs/zips
 # First setup build repo - if local it will be already present
+##### moved to helpers/prepare_repo.sh
+#if [ "${TYPE}" = "master" ]
+#then
+# echo "building from MASTER" 
+# git clone https://github.com/mazaclub/electrum-dash repo
+# cd /root/repo
+# check_ver
+#elif [ "${TYPE}" = "local" ] 
+#then
+#  cd /root/repo
+#  test -f /root/repo/setup.py || localdie 3
+#  echo "Building from local sources as Version ${VERSION}"
+#  check_ver
+#elif [ "${TYPE}" = "rc" ]
+#then 
+#   git clone https://github.com/mazaclub/electrum-dash repo
+#   cd /root/repo
+#   git checkout release/${VERSION} || localdie 2
+#   check_ver
+#
+#else "Building from Tagged Version: ${VERSION}"
+#  git clone https://github.com/mazaclub/electrum-dash repo
+#  cd /root/repo
+#  git checkout v"${VERSION}" || localdie 2
+#fi
 
-if [ "${TYPE}" = "master" ]
-then
- echo "building from MASTER" 
- git clone https://github.com/mazaclub/electrum-dash repo
- cd /root/repo
- check_ver
-elif [ "${TYPE}" = "local" ] 
-then
-  cd /root/repo
-  test -f /root/repo/setup.py || localdie 3
-  echo "Building from local sources as Version ${VERSION}"
-  check_ver
-elif [ "${TYPE}" = "rc" ]
-then 
-   git clone https://github.com/mazaclub/electrum-dash repo
-   cd /root/repo
-   git checkout release/${VERSION} || localdie 2
-   check_ver
-
-else "Building from Tagged Version: ${VERSION}"
-  git clone https://github.com/mazaclub/electrum-dash repo
-  cd /root/repo
-  git checkout v"${VERSION}" || localdie 2
-fi
-
+cd /root/repo
 # put files into the build repo
 cp -v  /root/make_packages /root/repo/make_packages
 cp -v  /root/make_android /root/repo/make_android
@@ -78,6 +83,7 @@ test -d ./packages || mkdir ./packages
 # install deps to docker container
 install_pip
 # run pyrcc4 on build repo
+cd /root/repo
 pyrcc4 icons.qrc -o gui/qt/icons_rc.py
 test -d data/themes && pyrcc4 data/themes/theme_icons.qrc -o gui/qt/theme_icons_rc.py
 

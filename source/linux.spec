@@ -4,6 +4,7 @@
 a = Analysis(['electrum-dash', 'gui/qt/main_window.py', 'gui/qt/lite_window.py', 'gui/text.py',
               'lib/util.py', 'lib/wallet.py', 'lib/simple_config.py','gui/gtk.py',
               'lib/bitcoin.py','lib/interface.py', 'packages/trezorctl.py', 'lib/dnssec.py',
+	       'plugins/trezor.py','gui/qt/installwizard.py',
               ],
              hiddenimports=["PyQt4","lib","gui","plugins","trezorlib","hid"],
              pathex=['lib','gui','plugins','packages'],
