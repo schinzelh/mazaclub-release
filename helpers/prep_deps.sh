@@ -22,6 +22,9 @@ do_windows (){
 # clone python-trezor so we have it for deps, and to include trezorctl.py 
 # for pyinstaller to analyze
 test -d python-trezor || git clone https://github.com/mazaclub/python-trezor
+cd python-trezor
+git checkout rev
+cd ../
 # prepare repo for local build
 test -f prepared || ./helpers/prepare_repo.sh
 ./make_requirements_txt.sh
