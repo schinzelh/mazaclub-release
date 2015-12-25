@@ -17,15 +17,15 @@ pip install  --target packages -r ../requirements.txt
 cp  /root/electrum-grs-release/python-trezor/trezorctl packages/trezorctl.py
 cp -av /root/packages/google/__init__.py /root/repo/packages/google
 cp /root/electrum-grs-release/source/linux.spec /root/repo
-if [ -d ${TRAVIS_BUILD_DIR} ] ; then 
-  echo "Building on Travis - moving /root/repo because permissions"
-  test -d /repo || cp -av /root/repo /
-  cd /repo
-  su build -c 'pyinstaller --windowed linux.spec'
-  cp -av /repo /root/
-else 
+#if [ -d ${TRAVIS_BUILD_DIR} ] ; then 
+#  echo "Building on Travis - moving /root/repo because permissions"
+#  test -d /repo || cp -av /root/repo /
+#  cd /repo
+#  su build -c 'pyinstaller --windowed linux.spec'
+#  cp -av /repo /root/
+#else 
  su build -c 'pyinstaller --windowed linux.spec'
-fi
+#fi
 cd /root/repo
 cd dist
 #mv electrum-grs Electrum-GRS-"${VERSION}"
@@ -38,7 +38,7 @@ mkdir Electrum-GRS-${VERSION}
 mv electrum-grs Electrum-GRS-${VERSION}
 cp /root/repo/icons/electrum-grs.png Electrum-GRS-${VERSION}
 cp /root/repo/README-Linux-x86_64.md Electrum-GRS-${VERSION}
-cp /root/repo/LICENSE Electrum-GRS-${VERSION}
+cp /root/repo/LICENCE Electrum-GRS-${VERSION}/LICENSE
 cp /root/repo/RELEASE-NOTES Electrum-GRS-${VERSION}
 cp /root/repo/AUTHORS Electrum-GRS-${VERSION}
 cp /root/90-trezor.rules Electrum-GRS-${VERSION}

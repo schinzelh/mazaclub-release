@@ -101,8 +101,8 @@ build_OSX(){
     echo "This build requires macports python2.7 and pyqt4"
     exit 5
    fi
-  ./helpers/build_osx.sh ${VERSION} 
-  mv helpers/release-packages/OSX helpers/release-packages/OSX-py2app
+ # ./helpers/build_osx.sh ${VERSION} 
+ # mv helpers/release-packages/OSX helpers/release-packages/OSX-py2app
   ./helpers/build_osx-pyinstaller.sh  ${VERSION} $TYPE
  else
   echo "OSX Build Requires OSX build host!"
