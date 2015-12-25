@@ -1,3 +1,9 @@
+
+# make sure production builds are clean
+if [ "${TYPE}" = "rc" -o "${TYPE}" = "SIGNED" ]
+then 
+   ./clean.sh all
+fi
 # setup build-config.sh for export/import of common variables
 if [[ $# -gt 0 ]]; then
   echo "#!/bin/bash" > build-config.sh
@@ -35,8 +41,3 @@ else
         echo "Using docker at $DOCKERBIN"
 fi
 
-# make sure production builds are clean
-if [ "${TYPE}" = "rc" -o "${TYPE}" = "SIGNED" ]
-then 
-   ./clean.sh all
-fi

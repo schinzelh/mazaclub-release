@@ -88,7 +88,7 @@ build_Windows(){
     && cp build-config.sh helpers/build-config.sh \
     && ./helpers/build_windows.sh \
     && ls -la $(pwd)/helpers/release-packages/Windows/Electrum-grs-${VERSION}-Windows-setup.exe \
-    && sudo chown -R ${USER}.${USER} ./ \
+    && sudo chown -R ${USER} ./ \
     && mv $(pwd)/helpers/release-packages/Windows $(pwd)/releases/Windows \
     && touch releases/Windows/completed
 }
@@ -214,6 +214,10 @@ pick_build () {
                 if [ "${TYPE}" = "local" ] ; then
 		 for i in Windows Linux OSX ; do
                    test -f releases/${i}/completed || build_${i} 
+		 done
+		elif [ "${TYPE}" = "rc" ] ; then
+		 for i in OSX Linux Windows ; do 
+		   build_${i} || die 95
 		 done
                  fi || die 95
                 ;;
