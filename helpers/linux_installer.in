@@ -43,7 +43,7 @@ if [ "$(uname -m)" != "x86_64" ]
 then
    error "Electrum-GRS for Linux supports x86_64 machines only"
    error "You're recommended to use a source installation:"
-   error "git clone https://github.com/mazaclub/electrum-grs"
+   error "git clone https://github.com/GrestlCoin/electrum-grs"
    error "cd electrum-grs"
    error "git checkout ELECTRUM_VERSION"
    error "pyrcc4 icons.prc -o gui/qt/icons_qrc.py"

@@ -30,7 +30,7 @@
     ```
     ./build.sh 0.5.0 SIGNED
     ```
-    This clones https://github.com/mazaclub/electrum-grs to
+    This clones https://github.com/GroestlCoin/electrum-grs to
     ```
     contrib/mazaclub-release/repo
     ```

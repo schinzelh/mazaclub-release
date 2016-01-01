@@ -46,7 +46,7 @@ cd /root
 if [ "${TYPE}" = "master" ]
 then
  echo "building from MASTER" 
- git clone https://github.com/mazaclub/electrum-grs repo
+ git clone https://github.com/GroestlCoin/electrum-grs repo
  cd /root/repo
  check_ver
 elif [ "${TYPE}" = "local" ] 
@@ -57,12 +57,12 @@ then
   check_ver
 elif [ "${TYPE}" = "rc" ]
 then 
-   git clone https://github.com/mazaclub/electrum-grs repo
+   git clone https://github.com/GroestlCoin/electrum-grs repo
    cd /root/repo
    git checkout release/v${VERSION} || localdie 2
 
 else "Building from Tagged Version: ${VERSION}"
-  git clone https://github.com/mazaclub/electrum-grs repo
+  git clone https://github.com/GroestlCoin/electrum-grs repo
   cd /root/repo
   git checkout v"${VERSION}" || localdie 2
 fi

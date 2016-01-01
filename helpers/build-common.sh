@@ -118,31 +118,7 @@ build_Linux(){
    && touch releases/Linux/completed
 }
 completeReleasePackage(){
-#  mv $(pwd)/helpers/release-packages/* $(pwd)/releases/
-  if [ "${TYPE}" = "rc" ]; then export TYPE=SIGNED ; fi
-  if [ "${TYPE}" = "SIGNED" ] ; then
-    ${DOCKERBIN} push mazaclub/electrum-grs-winbuild:${VERSION}
-    ${DOCKERBIN} push mazaclub/electrum-grs-release:${VERSION}
-    ${DOCKERBIN} push mazaclub/electrum-grs32-release:${VERSION}
-    ${DOCKERBIN} tag -f ogrisel/python-winbuilder mazaclub/python-winbuilder:${VERSION}
-    ${DOCKERBIN} push mazaclub/python-winbuilder:${VERSION}
-    cd releases
-    for release in * 
-    do
-      if [ ! -d ${release} ]; then
-         sign_release ${release}
-      else
-         cd ${release}
-         for i in * 
-         do 
-           if [ ! -d ${i} ]; then
-              sign_release ${i}
-	   fi
-         done
-         cd ..
-      fi
-    done
-  fi
+  ./helpers/complete_release-package.sh 
   echo "You can find your Electrum-grs $VERSION binaries in the releases folder."
   
 }
@@ -216,10 +192,10 @@ pick_build () {
                    test -f releases/${i}/completed || build_${i} 
 		 done
 		elif [ "${TYPE}" = "rc" ] ; then
-		 for i in OSX Linux Windows ; do 
-		   build_${i} || die 95
+		 for i in Windows Linux OSX ; do 
+		    build_${i} || die 95
 		 done
-                 fi || die 95
+                fi || die 95
                 ;;
  esac
 }
