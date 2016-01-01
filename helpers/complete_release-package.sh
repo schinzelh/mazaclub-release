@@ -10,11 +10,6 @@ sign_release () {
          gpg --sign --armor --detach  ${1}.md5
          gpg --sign --armor --detach  ${1}.sha1
 }
- cd $(pwd)/helpers/release-packages
- for pkg in * ; do 
-    rm -rf ../../releases/${pkg}
-    mv ${pkg} $(pwd)/releases/
- done
   if [ "${TYPE}" = "SIGNED" ] ; then
     ${DOCKERBIN} push mazaclub/electrum-grs-winbuild:${VERSION}
     ${DOCKERBIN} push mazaclub/electrum-grs-release:${VERSION}
