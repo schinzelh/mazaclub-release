@@ -2,7 +2,7 @@
 
 # We don't put these files in to actually include them in the script but to make the Analysis method scan them for imports
 a = Analysis(['electrum-dash', 'gui/qt/main_window.py', 'gui/qt/lite_window.py', 'gui/text.py',
-              'lib/util.py', 'lib/network.py','lib/wallet.py', 'lib/simple_config.py',
+              'lib/util.py', 'lib/network.py', 'lib/dapi.py', 'lib/wallet.py', 'lib/simple_config.py',
               'lib/bitcoin.py','lib/interface.py','packages/trezorctl.py','lib/dnssec.py',
 	       'plugins/trezor.py','gui/qt/installwizard.py',
               ],
@@ -54,8 +54,7 @@ exe = EXE(pyz,
           debug=False,
           strip=None,
           upx=False,
-          icon='icons/electrum-dash.ico',
-          console=False)
+          console=True)
           #console=True)
           #debug=True,
           # The console True makes an annoying black box pop up, but it does make electrum-dash output command line commands, with this turned off no output will be given but commands can still be used
