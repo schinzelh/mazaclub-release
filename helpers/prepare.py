@@ -22,6 +22,8 @@ elif _platform == "darwin":
     
     tar = tarfile.open("artifacts/dist/trezor-0.6.7.macosx-10.9-x86_64.tar.gz", "r:gz")
     tar.extractall("artifacts")
+    
+    shutil.copy2('artifacts/bin/trezorctl', 'packages/trezorctl.py')
 
 
 elif _platform == "win32":
