@@ -13,13 +13,13 @@ touch('packages/google/__init__.py')
 
 
 if _platform == "linux" or _platform == "linux2":
-   # linux
+    # linux
 elif _platform == "darwin":
-   # MAC OS X
-   call(["/usr/local/bin/pyrcc4", "icons.qrc", "-o" ,  "gui/qt/icons_rc.py"])
+    # MAC OS X
+    call(["/usr/local/bin/pyrcc4", "icons.qrc", "-o" ,  "gui/qt/icons_rc.py"])
 elif _platform == "win32":
-   # Windows
-   call(["C:\Python27\Lib\site-packages\PyQt4\pyrcc4.exe", "icons.qrc", "-o" ,  "gui/qt/icons_rc.py"])
+    # Windows
+    call(["C:\Python27\Lib\site-packages\PyQt4\pyrcc4.exe", "icons.qrc", "-o" ,  "gui/qt/icons_rc.py"])
 
 
 
