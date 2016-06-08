@@ -34,4 +34,9 @@ elif _platform == "win32":
         z.extractall("artifacts")
     shutil.copy2('artifacts/Python27/Scripts/trezorctl', 'packages/trezorctl.py')
 
+    with zipfile.ZipFile('artifacts/dist/keepkey-0.7.2.win32.zip', "r") as z:
+        z.extractall("artifacts")
+    shutil.copy2('artifacts/Python27/Scripts/keepkeyctl', 'packages/keepkeyctl.py')
+
+
 shutil.copytree('packages/requests', 'requests')
