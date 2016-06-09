@@ -4,9 +4,9 @@
 a = Analysis(['electrum-dash', 'gui/qt/main_window.py', 'gui/qt/lite_window.py', 'gui/text.py',
               'lib/util.py', 'lib/network.py', 'lib/dapi.py', 'lib/wallet.py', 'lib/simple_config.py',
               'lib/bitcoin.py','lib/interface.py','packages/trezorctl.py','packages/keepkeyctl.py','lib/dnssec.py',
-	       'plugins/trezor.py','plugins/keepkey.py','gui/qt/installwizard.py',
+	       'plugins/trezor.py','plugins/keepkey.py','plugins/btchipwallet.py','gui/qt/installwizard.py',
               ],
-             hiddenimports=["lib","gui","plugins","hid", "trezorlib", "keepkeylib" ],
+             hiddenimports=["lib","gui","plugins","hid", "trezorlib", "keepkeylib", "btchip"],
              pathex=['lib','gui','plugins','packages','packages/requests'],
              hookspath=None)
 
