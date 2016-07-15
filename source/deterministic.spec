@@ -54,6 +54,7 @@ exe = EXE(pyz,
           debug=False,
           strip=None,
           upx=False,
+          icon='icons/electrum-dash.ico',
           console=True)
           #console=True)
           #debug=True,
