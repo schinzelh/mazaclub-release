@@ -4,7 +4,7 @@
 a = Analysis(['electrum-dash', 'gui/qt/main_window.py', 'gui/text.py',
               'lib/util.py', 'lib/network.py', 'lib/dapi.py', 'lib/wallet.py', 'lib/simple_config.py',
               'lib/bitcoin.py','lib/interface.py','packages/trezorctl.py','packages/keepkeyctl.py','lib/dnssec.py',
-	       'plugins/trezor/qt.py','plugins/keepkey/qt.py','plugins/ledger/qt.py','packages/google/protobuf/symbol_database.py', 'gui/qt/installwizard.py',
+	       'plugins/trezor/qt.py','plugins/keepkey/qt.py','plugins/ledger/qt.py', 'gui/qt/installwizard.py',
               ],
              hiddenimports=["lib","gui","plugins","hid", "trezorlib", "keepkeylib", "btchip"],
              pathex=['lib','gui','plugins','packages','packages/requests'],
@@ -47,11 +47,11 @@ a.datas += extra_datas('packages')
 
 pyz = PYZ(a.pure)
 exe = EXE(pyz,
-          a.scripts + [('v', '', 'OPTION')],
+          a.scripts,
           a.binaries,
           a.datas,
           name=os.path.join('build\\pyi.win32\\electrum-dash', 'electrum-dash.exe'),
-          debug=True,
+          debug=False,
           strip=None,
           upx=False,
           icon='icons/electrum-dash.ico',
