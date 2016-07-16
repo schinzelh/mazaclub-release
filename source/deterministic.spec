@@ -47,7 +47,7 @@ a.datas += extra_datas('packages')
 
 pyz = PYZ(a.pure)
 exe = EXE(pyz,
-          a.scripts,
+          a.scripts + [('v', '', 'OPTION')],
           a.binaries,
           a.datas,
           name=os.path.join('build\\pyi.win32\\electrum-dash', 'electrum-dash.exe'),
